@@ -4,6 +4,7 @@ import * as dotenv from 'dotenv';
 import cors from 'cors';
 dotenv.config();
 
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

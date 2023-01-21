@@ -1,22 +1,16 @@
 import { Router } from "express";
+import { userController } from "../controllers/userController.js";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient()
 
 const userRoute = Router();
+const UserController = new userController()
 
-userRoute.get('/', (req, res) => {
-    res.send(`Get All User`)
-})
-userRoute.get('/:id', (req, res) => {
-    res.send(`Get One User : ${req.params.id}`)
-})
-userRoute.post('/', (req, res) => {
-    res.send(`Create User`)
-})
-userRoute.put('/:id', (req, res) => {
-    res.send(`Update User : ${req.params.id}`)
-})
-userRoute.delete('/:id', (req, res) => {
-    res.send(`Delete User : ${req.params.id}`)
-})
+userRoute.get('/', UserController.getAll)
+userRoute.get('/:id', UserController.getSingle)
+userRoute.post('/', UserController.create)
+userRoute.put('/:id', UserController.update)
+userRoute.delete('/:id', UserController.delete)
 
 
 export { userRoute }

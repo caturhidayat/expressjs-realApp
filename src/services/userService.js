@@ -3,30 +3,38 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 class userService {
-    constructor(req, res) {
-        (this.req = req), (this.res = res);
-    }
+    constructor() {}
 
     async getAllUser(req, res) {
         const data = await prisma.user.findMany();
-        res.json(data)
+        res.json(data);
     }
     async getSingleUser(id, req, res) {
-        const data = await prisma.user.findUnique({
-            where: {
-                id: id,
-            },
-        });
-        res.json(data)
+        try {
+            const data = await prisma.user.findUnique({
+                where: {
+                    id: id,
+                },
+            });
+            res.json(data);
+        } catch (Error) {
+            return `User tidak ada: Error -->> ${Error}`;
+        }
     }
     async createUser(body, res) {
-        const data =  await prisma.user.create({
-            data: {
-                email: body.email,
-                password: body.email
-            },
-        });
-        res.json(data)
+        try {
+            const data = await prisma.user.upsert({
+                where: { email: body.email },
+                update: {},
+                create: {
+                    email: body.email,
+                    password: body.password
+                }
+            })
+            res.json(data);
+        } catch (Error) {
+            return `Email sudah pernah digunakan`
+        }
     }
     async updateUser(id, res) {
         const data = await prisma.user.update({
@@ -34,13 +42,13 @@ class userService {
                 id: id,
             },
         });
-        res.json(data)
+        res.json(data);
     }
     async deleteUser(id, res) {
         const data = await prisma.user.delete({
             where: { id: id },
         });
-        res.json(data)
+        res.json(data);
     }
 }
 

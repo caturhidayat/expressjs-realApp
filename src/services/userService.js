@@ -1,14 +1,20 @@
 import { Prisma, PrismaClient } from "@prisma/client";
+import { auth } from "../utils/auth.js";
+
+const authUser = new auth();
 
 const prisma = new PrismaClient();
 
 class userService {
     constructor() {}
 
+    // Get All Users
     async getAllUser(req, res) {
         const data = await prisma.user.findMany();
         res.json(data);
     }
+
+    // Get a single User
     async getSingleUser(id, req, res) {
         try {
             const data = await prisma.user.findUniqueOrThrow({
@@ -22,12 +28,17 @@ class userService {
             }
         }
     }
-    async createUser(body, res) {
+
+
+    // Create New User
+    async createUser(body, req, res) {
+        const password = req.body.password
+        const hashPass = await authUser.hashPassword(password)
         try {
             const data = await prisma.user.create({
                 data: {
                     email: body.email,
-                    password: body.password,
+                    password: hashPass,
                 },
             });
             res.json(data);
@@ -38,7 +49,11 @@ class userService {
             }
         }
     }
-    async updateUser(id, body, res) {
+
+    // Update User
+    async updateUser(id, body, req, res) {
+        const password = req.body.password
+        const hashPass = await authUser.hashPassword(password)
         try {
             const data = await prisma.user.update({
                 where: {
@@ -46,7 +61,7 @@ class userService {
                 },
                 data: {
                     email: body.email,
-                    password: body.password,
+                    password: hashPass,
                 },
             });
             res.json(data);
@@ -57,6 +72,9 @@ class userService {
             }
         }
     }
+
+
+    // Delete User
     async deleteUser(id, res) {
         try {
             const data = await prisma.user.delete({

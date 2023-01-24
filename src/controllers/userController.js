@@ -16,12 +16,12 @@ class userController {
     }
     create(req, res) {
         const body = req.body;
-        UserService.createUser(body, res);
+        UserService.createUser(body, req, res);
     }
     update(req, res) {
         const id = req.params.id;
         const body = req.body;
-        UserService.updateUser(+id, body, res);
+        UserService.updateUser(+id, body, req, res);
     }
     delete(req, res) {
         const id = req.params.id;

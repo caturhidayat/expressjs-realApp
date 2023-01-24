@@ -3,9 +3,9 @@ import { userService } from "../services/userService.js";
 const UserService = new userService();
 
 class userController {
-    constructor(req, res) {
-        (req = this.req), (req = this.res);
-    }
+    // constructor(req, res) {
+    //     (req = this.req), (req = this.res);
+    // }
 
     getAll(req, res) {
         UserService.getAllUser(req, res);
@@ -20,7 +20,8 @@ class userController {
     }
     update(req, res) {
         const id = req.params.id;
-        UserService.updateUser(+id, res);
+        const body = req.body;
+        UserService.updateUser(+id, body, res);
     }
     delete(req, res) {
         const id = req.params.id;

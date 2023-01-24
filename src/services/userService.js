@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -11,44 +11,64 @@ class userService {
     }
     async getSingleUser(id, req, res) {
         try {
-            const data = await prisma.user.findUnique({
-                where: {
-                    id: id,
-                },
+            const data = await prisma.user.findUniqueOrThrow({
+                where: { id: id}
             });
             res.json(data);
-        } catch (Error) {
-            return `User tidak ada: Error -->> ${Error}`;
+        } catch (e) {
+            if (e instanceof Prisma.PrismaClientKnownRequestError) {
+                console.info(e.code, e.message);
+                res.json(e);
+            }
         }
     }
     async createUser(body, res) {
         try {
-            const data = await prisma.user.upsert({
-                where: { email: body.email },
-                update: {},
-                create: {
+            const data = await prisma.user.create({
+                data: {
                     email: body.email,
-                    password: body.password
-                }
-            })
+                    password: body.password,
+                },
+            });
             res.json(data);
-        } catch (Error) {
-            return `Email sudah pernah digunakan`
+        } catch (e) {
+            if (e instanceof Prisma.PrismaClientKnownRequestError) {
+                console.info(e.code, e.message);
+                res.json(e);
+            }
         }
     }
-    async updateUser(id, res) {
-        const data = await prisma.user.update({
-            where: {
-                id: id,
-            },
-        });
-        res.json(data);
+    async updateUser(id, body, res) {
+        try {
+            const data = await prisma.user.update({
+                where: {
+                    id: id,
+                },
+                data: {
+                    email: body.email,
+                    password: body.password,
+                },
+            });
+            res.json(data);
+        } catch (e) {
+            if (e instanceof Prisma.PrismaClientKnownRequestError) {
+                console.info(e.code, e.message);
+                res.json(e);
+            }
+        }
     }
     async deleteUser(id, res) {
-        const data = await prisma.user.delete({
-            where: { id: id },
-        });
-        res.json(data);
+        try {
+            const data = await prisma.user.delete({
+                where: { id: id },
+            });
+            res.json(`User ${data.email} deleted 🗑`);
+        } catch (e) {
+            if (e instanceof Prisma.PrismaClientKnownRequestError) {
+                console.info(e.code, e.message);
+                res.json(e);
+            }
+        }
     }
 }
 

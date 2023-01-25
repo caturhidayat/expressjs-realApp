@@ -27,6 +27,12 @@ class userController {
         const id = req.params.id;
         UserService.deleteUser(+id, res);
     }
+
+
+    // Sign in
+    signIn(req, res) {
+        UserService.signIn(req, res)
+    }
 }
 
 export { userController };

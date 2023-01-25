@@ -12,8 +12,10 @@ class auth {
     }
 
     comparePassword(password, hash) {
-        return bcrypt.compareSync(password, hash)
+        const compare = bcrypt.compareSync(password, hash)
+        return compare
     }
+    
 }
 
 

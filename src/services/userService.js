@@ -18,7 +18,7 @@ class userService {
     async getSingleUser(id, req, res) {
         try {
             const data = await prisma.user.findUniqueOrThrow({
-                where: { id: id}
+                where: { id: id },
             });
             res.json(data);
         } catch (e) {
@@ -29,11 +29,10 @@ class userService {
         }
     }
 
-
     // Create New User
     async createUser(body, req, res) {
-        const password = req.body.password
-        const hashPass = await authUser.hashPassword(password)
+        const password = req.body.password;
+        const hashPass = await authUser.hashPassword(password);
         try {
             const data = await prisma.user.create({
                 data: {
@@ -52,8 +51,8 @@ class userService {
 
     // Update User
     async updateUser(id, body, req, res) {
-        const password = req.body.password
-        const hashPass = await authUser.hashPassword(password)
+        const password = req.body.password;
+        const hashPass = await authUser.hashPassword(password);
         try {
             const data = await prisma.user.update({
                 where: {
@@ -73,7 +72,6 @@ class userService {
         }
     }
 
-
     // Delete User
     async deleteUser(id, res) {
         try {
@@ -86,6 +84,28 @@ class userService {
                 console.info(e.code, e.message);
                 res.json(e);
             }
+        }
+    }
+
+    async signIn(req, res) {
+        const { email, password } = req.body;
+
+        // const user = await prisma.user.findUnique({
+        //     where: { email: email },
+        // });
+        // const match = authUser.comparePassword(password, user.password);
+        // res.json({user: user, compare: match, plaintextpass: password})
+
+        const user = await prisma.user.findUnique({
+            where: { email: email },
+        });
+
+        // Compare Password
+        const match = authUser.comparePassword(password, user.password);
+        if (user && match) {
+            res.json({ user: user, message: "Sign in Success!👏🏼" });
+        } else {
+            res.json(`email or password wrong ❌`);
         }
     }
 }

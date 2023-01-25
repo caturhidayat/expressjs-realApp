@@ -12,5 +12,8 @@ userRoute.post('/', UserController.create)
 userRoute.put('/:id', UserController.update)
 userRoute.delete('/:id', UserController.delete)
 
+// Auth
+userRoute.post('/signin', UserController.signIn)
+
 
 export { userRoute }

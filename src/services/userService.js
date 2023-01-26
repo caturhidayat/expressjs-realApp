@@ -1,5 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { auth } from "../utils/auth.js";
+import * as jwt from "jsonwebtoken";
 
 const authUser = new auth();
 
@@ -33,6 +34,7 @@ class userService {
     async createUser(body, req, res) {
         const password = req.body.password;
         const hashPass = await authUser.hashPassword(password);
+
         try {
             const data = await prisma.user.create({
                 data: {
@@ -87,23 +89,36 @@ class userService {
         }
     }
 
+    // Sign In Function
     async signIn(req, res) {
         const { email, password } = req.body;
-
-        // const user = await prisma.user.findUnique({
-        //     where: { email: email },
-        // });
-        // const match = authUser.comparePassword(password, user.password);
-        // res.json({user: user, compare: match, plaintextpass: password})
-
+        const secret = process.env.TOKEN_SECRET.toString();
         const user = await prisma.user.findUnique({
             where: { email: email },
         });
+        // console.info(secret)
 
         // Compare Password
-        const match = authUser.comparePassword(password, user.password);
-        if (user && match) {
-            res.json({ user: user, message: "Sign in Success!👏🏼" });
+        if (user) {
+            const match = authUser.comparePassword(password, user.password);
+            if(match) {
+                const token = jwt.sign(
+                    {
+                        email: user.email,
+                        id: user.id,
+                    },
+                    process.env.TOKEN_SECRET.toString(),
+                    {
+                        expiresIn:'15s'
+                    }
+                );
+                // console.info(token)
+                res.json({
+                    user: user,
+                    message: "Sign in Success!👏🏼",
+                    accessToken: token,
+                });
+            }
         } else {
             res.json(`email or password wrong ❌`);
         }

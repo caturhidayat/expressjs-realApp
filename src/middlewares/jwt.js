@@ -1,17 +1,20 @@
-import * as jwt from "jsonwebtoken";
+import { PrismaClient } from "@prisma/client";
+import jwt from "jsonwebtoken";
 const token_secret = process.env.TOKEN_SECRET.toString()
+const prisma = new PrismaClient()
 
 
-const authenticationToken = (req, res, next) => {
-    const authHeader = req.headers['Authorization']
+const authenticationToken = async (req, res, next) => {
+    // const { email, password } = req.body
+    const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
 
     if (token === null) return res.sendStatus(401)
 
     jwt.verify(token, token_secret, (err, user) => {
-        console.info({error: err, message: 'need auth'})
-
-        if (err) return res.sendStatus(403)
+        if (err instanceof jwt.JsonWebTokenError) {
+            if (err) console.info({name: err.name, message: err.message})
+        }
 
         req.user = user
 

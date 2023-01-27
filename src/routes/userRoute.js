@@ -9,8 +9,8 @@ const prisma = new PrismaClient()
 const userRoute = Router();
 const UserController = new userController()
 
-userRoute.get('/', UserController.getAll)
-userRoute.get('/:id', UserController.getSingle)
+userRoute.get('/', authenticationToken, UserController.getAll)
+userRoute.get('/:id', authenticationToken, UserController.getSingle)
 userRoute.post('/', UserController.create)
 userRoute.put('/:id', UserController.update)
 userRoute.delete('/:id', UserController.delete)

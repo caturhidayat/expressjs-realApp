@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { auth } from "../utils/auth.js";
-import * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 const authUser = new auth();
 
@@ -12,7 +12,12 @@ class userService {
     // Get All Users
     async getAllUser(req, res) {
         const data = await prisma.user.findMany();
-        res.json(data);
+        // if (data.some(user => user.email === req.user.email)) {
+        //     res.json({data: data});
+        // }
+        console.info(req.user)
+        res.json(data)
+        // res.json(data.filter((user) => user === req.user.email));
     }
 
     // Get a single User
@@ -21,9 +26,10 @@ class userService {
             const data = await prisma.user.findUniqueOrThrow({
                 where: { id: id },
             });
-            res.json(data);
+            res.json(data.filter(user => user.id === req.user.id));
+            // res.json(data);
         } catch (e) {
-            if (e instanceof Prisma.PrismaClientKnownRequestError) {
+            if (e instanceof Prisma.PrismaClientKnownRequestError || e instanceof jwt.JsonWebTokenError) {
                 console.info(e.code, e.message);
                 res.json(e);
             }
@@ -101,18 +107,11 @@ class userService {
         // Compare Password
         if (user) {
             const match = authUser.comparePassword(password, user.password);
-            if(match) {
-                const token = jwt.sign(
-                    {
-                        email: user.email,
-                        id: user.id,
-                    },
-                    process.env.TOKEN_SECRET.toString(),
-                    {
-                        expiresIn:'15s'
-                    }
-                );
+            if (match) {
+                const token = jwt.sign(user, secret);
                 // console.info(token)
+                // res.cookie('token', token)
+                // res.set('Authorization', 'Bearer' + ' ' + token)
                 res.json({
                     user: user,
                     message: "Sign in Success!👏🏼",

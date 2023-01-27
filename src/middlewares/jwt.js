@@ -13,7 +13,8 @@ const authenticationToken = async (req, res, next) => {
 
     jwt.verify(token, token_secret, (err, user) => {
         if (err instanceof jwt.JsonWebTokenError) {
-            if (err) console.info({name: err.name, message: err.message})
+            // if (err) console.info({name: err.name, message: err.message})
+            return res.status(401).end()
         }
 
         req.user = user

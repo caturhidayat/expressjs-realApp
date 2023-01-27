@@ -12,8 +12,8 @@ const UserController = new userController()
 userRoute.get('/', authenticationToken, UserController.getAll)
 userRoute.get('/:id', authenticationToken, UserController.getSingle)
 userRoute.post('/', UserController.create)
-userRoute.put('/:id', UserController.update)
-userRoute.delete('/:id', UserController.delete)
+userRoute.put('/:id', authenticationToken, UserController.update)
+userRoute.delete('/:id', authenticationToken, UserController.delete)
 
 // Auth
 userRoute.post('/signin', UserController.signIn)

@@ -26,12 +26,14 @@ class userService {
             const data = await prisma.user.findUniqueOrThrow({
                 where: { id: id },
             });
-            res.json(data.filter(user => user.id === req.user.id));
+            res.json({data:data});
             // res.json(data);
         } catch (e) {
-            if (e instanceof Prisma.PrismaClientKnownRequestError || e instanceof jwt.JsonWebTokenError) {
-                console.info(e.code, e.message);
-                res.json(e);
+            if (e instanceof Prisma.PrismaClientKnownRequestError) {
+                // console.info(e.code, e.message);
+                res.json(e.message);
+            } else if (e instanceof jwt.JsonWebTokenError) {
+                res.json(e.message)
             }
         }
     }
@@ -108,7 +110,7 @@ class userService {
         if (user) {
             const match = authUser.comparePassword(password, user.password);
             if (match) {
-                const token = jwt.sign(user, secret);
+                const token = jwt.sign(user, secret, { expiresIn: '5m'});
                 // console.info(token)
                 // res.cookie('token', token)
                 // res.set('Authorization', 'Bearer' + ' ' + token)
@@ -125,3 +127,4 @@ class userService {
 }
 
 export { userService };
+

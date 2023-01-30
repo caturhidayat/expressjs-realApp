@@ -5,13 +5,13 @@ import cors from "cors";
 dotenv.config();
 import jwt from "jsonwebtoken";
 import { createHmac } from "crypto";
-import cookie from 'cookie-parser'
+import cookieParser from 'cookie-parser'
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-app.use(cookie())
+app.use(cookieParser())
 
 
 // Generate Token 

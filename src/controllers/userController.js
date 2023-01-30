@@ -33,6 +33,10 @@ class userController {
     signIn(req, res) {
         UserService.signIn(req, res)
     }
-}
+
+    logout(req, res) {
+        UserService.logout(req, res)
+    }
+} 
 
 export { userController };

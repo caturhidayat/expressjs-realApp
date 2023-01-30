@@ -20,4 +20,8 @@ userRoute.post('/signin', UserController.signIn)
 userRoute.post('/signup', UserController.create)
 
 
+// clear cookies
+userRoute.post('/logout', UserController.logout)
+
+
 export { userRoute }

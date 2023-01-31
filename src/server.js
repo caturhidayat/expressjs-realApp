@@ -6,12 +6,35 @@ dotenv.config();
 import jwt from "jsonwebtoken";
 import { createHmac } from "crypto";
 import cookieParser from 'cookie-parser'
+import passport from "passport";
+import session from "express-session";
+import hbs from 'handlebars'
+import { engine } from 'express-handlebars'
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+// Template Engine
+app.engine('hbs', engine());
+app.set('view engine', 'hbs');
+app.set('views', './views');
+// hbs.registerPartial(__dirname + '/views/partials', (err) => {})
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(session({
+    name:'session', 
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false
+}))
 app.use(cors());
 app.use(cookieParser())
+app.use(passport.initialize())
+app.use(passport.session())
 
 
 // Generate Token 

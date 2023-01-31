@@ -2,8 +2,19 @@ import { Router } from "express";
 
 const main = Router();
 
-main.get("/", (req, res) => {
-    res.send(`Home Page via route export 🎉`);
+const users = [
+    {
+        username: "Catur Hidayat",
+        role: "dev"
+    },
+    {
+        username: "Rina Pratiwi",
+        role: "CS"
+    }
+]
+
+main.get("/", async (req, res) => {
+    res.render('index', {users: users});
 });
 
 export { main };

@@ -23,7 +23,8 @@ class userService {
         // console.info(req.user);
         
         console.info({ kuki: cookie });
-        res.json(data);
+        // res.json(data);
+        res.render('users', {data: data})
         // res.json(data.filter((user) => user === req.user.email));
     }
 

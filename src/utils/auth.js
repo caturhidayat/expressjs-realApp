@@ -15,8 +15,6 @@ class auth {
         const compare = bcrypt.compareSync(password, hash)
         return compare
     }
-    
 }
-
 
 export { auth }

@@ -1,10 +1,9 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { auth } from "../utils/auth.js";
 import jwt from "jsonwebtoken";
+import { prisma } from '../prisma/prismaConnection.js'
 
 const authUser = new auth();
-
-const prisma = new PrismaClient();
 
 class userService {
     constructor() {}
@@ -15,7 +14,7 @@ class userService {
         const data = await prisma.user.findMany();
         const authHeader = req.headers["authorization"];
         const token = authHeader && authHeader.split(" ")[1];
-
+    
         if (token) console.info({ token: token });
         // if (data.some(user => user.email === req.user.email)) {
         //     res.json({data: data});
@@ -137,6 +136,13 @@ class userService {
                 });
             }
         }
+    }
+
+    signInPage(req, res) {
+        res.render('users/signin')
+    }
+    signUpPage(req, res) {
+        res.render('users/signup')
     }
 
     // logout

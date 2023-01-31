@@ -33,6 +33,12 @@ class userController {
     signIn(req, res) {
         UserService.signIn(req, res)
     }
+    signInPage(req, res) {
+        UserService.signInPage(req, res)
+    }
+    signUpPage(req, res) {
+        UserService.signUpPage(req, res)
+    }
 
     logout(req, res) {
         UserService.logout(req, res)

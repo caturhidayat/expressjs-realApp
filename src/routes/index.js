@@ -1,20 +1,17 @@
 import { Router } from "express";
+import { userController } from "../controllers/userController.js";
 
+const UserController = new userController()
 const main = Router();
 
-const users = [
-    {
-        username: "Catur Hidayat",
-        role: "dev"
-    },
-    {
-        username: "Rina Pratiwi",
-        role: "CS"
-    }
-]
-
 main.get("/", async (req, res) => {
-    res.render('index', {users: users});
+    res.render('index');
 });
+
+// Auth
+main.get('/signin', UserController.signInPage)
+main.get('/signup', UserController.signUpPage)
+main.post('/signin', UserController.signIn)
+main.post('/signup', UserController.create)
 
 export { main };

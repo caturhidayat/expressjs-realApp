@@ -12,11 +12,7 @@ userRoute.post('/', UserController.create)
 userRoute.put('/:id', authenticationToken, UserController.update)
 userRoute.delete('/:id', authenticationToken, UserController.delete)
 
-// Auth
-userRoute.get('/signin', (req, res) => res.render('signup'))
-userRoute.get('/signup', UserController.signUpPage)
-userRoute.post('/signin', UserController.signIn)
-userRoute.post('/signup', UserController.create)
+
 
 
 // clear cookies

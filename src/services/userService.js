@@ -105,7 +105,7 @@ class userService {
     }
 
     // Sign In Function
-    async signIn(req, res) {
+    async login(req, res) {
         const { email, password } = req.body;
         const secret = process.env.TOKEN_SECRET.toString();
         const refreshSecret = process.env.REFRESH_TOKEN_SECRET.toString();
@@ -138,8 +138,8 @@ class userService {
         }
     }
 
-    signInPage(req, res) {
-        res.render('users/signin')
+    loginPage(req, res) {
+        res.render('users/login')
     }
     signUpPage(req, res) {
         res.render('users/signup')

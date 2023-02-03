@@ -3,12 +3,10 @@ const app = express();
 import * as dotenv from "dotenv";
 import cors from "cors";
 dotenv.config();
-import jwt from "jsonwebtoken";
 import { createHmac } from "crypto";
 import cookieParser from 'cookie-parser'
 import passport from "passport";
 import session from "express-session";
-import hbs from 'handlebars'
 import { engine } from 'express-handlebars'
 import path from "path";
 import { fileURLToPath } from "url";
@@ -20,7 +18,10 @@ const __dirname = path.dirname(__filename)
 app.engine('hbs', engine());
 app.set('view engine', 'hbs');
 app.set('views', './views');
-// hbs.registerPartial(__dirname + '/views/partials', (err) => {})
+
+
+// Static Dir / Files
+app.use(express.static('public'))
 
 // Middleware
 app.use(express.json());

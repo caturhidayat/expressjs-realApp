@@ -9,9 +9,9 @@ main.get("/", async (req, res) => {
 });
 
 // Auth
-main.get('/signin', UserController.signInPage)
+main.get('/login', UserController.loginPage)
 main.get('/signup', UserController.signUpPage)
-main.post('/signin', UserController.signIn)
+main.post('/login', UserController.login)
 main.post('/signup', UserController.create)
 
 export { main };

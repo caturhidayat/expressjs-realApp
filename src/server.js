@@ -35,7 +35,8 @@ app.use(session({
 app.use(cors());
 app.use(cookieParser())
 app.use(passport.initialize())
-app.use(passport.session())
+// app.use(passport.session())
+
 
 
 // Generate Token 

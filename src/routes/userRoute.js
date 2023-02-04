@@ -13,8 +13,6 @@ userRoute.put('/:id', authenticationToken, UserController.update)
 userRoute.delete('/:id', authenticationToken, UserController.delete)
 
 
-
-
 // clear cookies
 userRoute.post('/logout', UserController.logout)
 

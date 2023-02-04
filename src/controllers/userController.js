@@ -1,10 +1,12 @@
 import { userService } from "../services/userService.js";
+import express from 'express'
 
 const UserService = new userService();
 
 class userController {
     // constructor(req, res) {
-    //     (req = this.req), (req = this.res);
+    //     this.req = req,
+    //     this.res = res
     // }
 
     getAll(req, res) {
@@ -42,6 +44,11 @@ class userController {
 
     logout(req, res) {
         UserService.logout(req, res)
+    }
+
+    // Profile
+    profile(req, res) {
+        UserService.profile(req, res)
     }
 } 
 

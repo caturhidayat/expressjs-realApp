@@ -9,7 +9,7 @@ class postService {
         const post = await prisma.post.findMany({
             where: { published: true}
         })
-        res.render('posts/posts', { post: post})
+        res.render('posts/posts', { tittle: 'Blog', post: post})
     }
     async getSingle(req, res){
         const id = req.body.id

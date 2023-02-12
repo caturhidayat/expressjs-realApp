@@ -4,10 +4,15 @@ import { prisma } from '../prisma/prisma.js'
 
 const opts = {}
 opts.JwtStrategy = ExtractJwt.fromAuthHeaderAsBearerToken()
-opts.JwtStrategy.secretOrKey = 'secret'
-opts.JwtStrategy.issuer = 'account@email.com'
-opts.audience = 'local.host'
+opts.JwtStrategy.secretOrKey = process.abort.env.SECRET_KEY
 
-passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
-
+passport.use('jwt', new JwtStrategy(opts, async (jwt_payload, done) => {
+    try {
+        const user = await prisma.user.findUnique({
+            where: { id: jwt_payload.sub }
+        })
+        if(user) return done(null, user)
+    } catch (err) {
+        return done(err, false)
+    }
 }))

@@ -8,7 +8,9 @@ authRoute.get("/signup", (req, res) => {
     res.render("signup");
 });
 authRoute.post("/signup");
-authRoute.get("/login");
+authRoute.get("/login", (req, res) => {
+    res.render("login");
+});
 authRoute.post("/login");
 
 // Profile

@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { authenticationToken } from '../middlewares/jwt.js'
 import { postController } from "../controllers/postControllers.js";
 const PostCcontroller = new postController()
 

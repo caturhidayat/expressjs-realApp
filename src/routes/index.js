@@ -1,22 +1,24 @@
 import { Router } from "express";
-import passport from "passport";
-import { userController } from "../controllers/userController.js";
-import { authenticationToken } from "../middlewares/jwt.js";
+import { authController } from '../controllers/authControllers.js'
+import { isLoggedIn } from "../middlewares/jwt.js";
 
-const UserController = new userController();
+// const UserController = new userController();
+const AuthController = new authController()
 const main = Router();
 
 main.get("/", async (req, res, next) => {
     res.render("index", { tittle: "Home Page" });
 });
 
-// Auth
-main.get("/login", UserController.loginPage);
-main.get("/signup", UserController.signUpPage);
-main.post("/login", UserController.login);
-main.post("/signup", UserController.create);
+// Auth Loggin
+main.get("/login", AuthController.loginGet);
+main.post("/login", AuthController.loginPost);
+
+// Auth Signup
+main.get("/signup", AuthController.signupGet);
+main.post("/signup", AuthController.signupPost);
 
 // Profile
-main.get("/profile", UserController.profile);
+main.get("/profile", AuthController.profile);
 
 export { main };

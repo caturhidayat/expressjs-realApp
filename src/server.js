@@ -5,7 +5,6 @@ import cors from "cors";
 dotenv.config();
 import { createHmac } from "crypto";
 import cookieParser from 'cookie-parser'
-import passport from "passport";
 import session from "express-session";
 import { engine } from 'express-handlebars'
 import path from "path";
@@ -33,14 +32,12 @@ app.use(session({
     saveUninitialized: false
 }))
 app.use(cors());
-app.use(cookieParser())
-app.use(passport.initialize())
-// app.use(passport.session())
+app.use(cookieParser());
 
 
 
 // Generate Token 
-const hash = createHmac('sha256', process.env.SECRET).digest('hex')
+// const hash = createHmac('sha256', process.env.SECRET).digest('hex')
 // console.info({tSecret: hash})
 // console.info({token_secret: process.env.TOKEN_SECRET})
 

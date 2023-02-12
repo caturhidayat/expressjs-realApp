@@ -1,16 +1,57 @@
 <div class="title">
-  <h2 class="title is-2">Login Page</h2>
+    <h2 class="title is-2">Login Page</h2>
 </div>
-<form action="/login" method="POST">
-    <div class="field">
+<form action="/login">
+    <div class="field ">
         <label class="label" for="email">Email</label>
-        <input class="input" type="email" name="email" id="email" />
+        <input class="input" type="email" name="email" id="email" required/>
+        <p class="is-light" id="emailE"></p>
     </div>
     <div class="field">
         <label class="label" for="email">Password</label>
-        <input class="input" type="password" name="password" id="password" />
+        <input class="input" type="password" name="password" id="password" required/>
+        <p class="is-light" id="passwordE"></p>
     </div>
     <div class="control">
-      <button class="button is-primary" type="submit">Login</button>
+        <button class="button is-primary">Login</button>
     </div>
 </form>
+
+<script>
+    const login = document.querySelector('form')
+    const emailError = document.getElementById('emailE')
+    const passwordError = document.getElementById('passwordE')
+
+    const submit = login.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Reset Error
+        emailError.textContent = '';
+        passwordError.textContent = ''
+
+        // Get the Value
+        const email = login.email.value;
+        const password = login.password.value;
+
+        try {
+            const res = await fetch('/login', {
+            method: 'POST',
+            headers: { 
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password })
+        })
+        const data = await res.json()
+            if(data.errors) {
+              emailError.textContent = `inccorect Email` ;
+              passwordError.textContent = data.errors.password;
+            }
+            if(data.user) {
+                location.assign('/profile')
+            }
+        }
+        catch (err) {
+            console.info(err)
+        }
+    })
+</script>

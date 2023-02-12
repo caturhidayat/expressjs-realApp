@@ -23,5 +23,24 @@ const authenticationToken = async (req, res, next) => {
     } )
 }
 
+const isLoggedIn = async (req, res, next) => {
+    const authHeader = await req.cookies.jwt;
+    // console.info(authHeader)
+    const decode = jwt.decode(authHeader)
+    // console.info(decode.id)
+    try {
+        const user = await prisma.user.findUnique({
+            where: { id: decode }
+        })
 
-export { authenticationToken }
+        if(user) {
+            res.status(200).json({ name: user.name, email: user.email })
+        }
+    } catch (error) {
+        res.status(400).json({ error })
+    }
+    next()
+}
+
+
+export { authenticationToken, isLoggedIn }

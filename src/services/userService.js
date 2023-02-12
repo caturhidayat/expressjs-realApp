@@ -2,7 +2,6 @@ import { Prisma } from "@prisma/client";
 import { auth } from "../utils/auth.js";
 import jwt from "jsonwebtoken";
 import { prisma } from "../prisma/prismaConnection.js";
-import passport from "passport";
 
 const authUser = new auth();
 
@@ -67,7 +66,7 @@ class userService {
                     password: hashPass,
                 },
             });
-            res.redirect("/");
+            res.status(201).json(data)
         } catch (e) {
             if (e instanceof Prisma.PrismaClientKnownRequestError) {
                 console.info(e.code, e.message);

@@ -1,25 +1,21 @@
 import { Router } from "express";
 import passport from "passport";
+import { authController } from '../controllers/authController.js'
 
+const AuthController = new authController()
 const authRoute = Router();
 
 // Auth
-authRoute.get("/signup", (req, res) => {
-    res.render("signup");
-});
-authRoute.post("/signup");
-authRoute.get("/login", (req, res) => {
-    res.render("login");
-});
-authRoute.post("/login");
+authRoute.get("/signup", AuthController.getSignup);
+authRoute.post("/signup", AuthController.postSignup);
+authRoute.get("/login", AuthController.getLogin);
+authRoute.post("/login", AuthController.postLogin);
 
 // Profile
 authRoute.get(
     "/profile",
     passport.authenticate("jwt", { session: false }),
-    (req, res) => {
-        res.send(req.user)
-    }
+    AuthController.getProfile
 );
 
 export { authRoute };

@@ -1,11 +1,11 @@
 <h2 class="title is-2">Sign Up Page</h2>
 <form>
     <label class="label" for="name">Name</label>
-    <input class="input" name="name" type="text"  />
+    <input class="input" name="name" type="text" required/>
     <label class="label" for="email">email</label>
-    <input class="input" name="email" type="email"  />
+    <input class="input" name="email" type="email" required/>
     <label class="label" for="password">Password</label>
-    <input class="input" name="password" type="password"  />
+    <input class="input" name="password" type="password" required/>
     <div>
         <button class="button is-success">Sign Up</button>
     </div>
@@ -14,33 +14,31 @@
 
 
 <script>
-    const form = document.querySelector('form')
+    const signup = document.querySelector('form')
+    
+    const submit = signup.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault()
-
-        // Get data
-        const name = form.name.value
-        const email = form.email.value
-        const password = form.password.value
+        // Get the Value
+        const name = signup.name.value;
+        const email = signup.email.value;
+        const password = signup.password.value;
 
         try {
-            const res = await fetch('/signup', { 
-                method: 'POST', 
-                body: JSON.stringify({ name, email, password })
-                Headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            const data = await res.json()
-            // if(data.Error) return Error
-            console.info({data:data data})
-            if(data) {
+            const res = await fetch('/signup', {
+            method: 'POST',
+            headers: { 
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name, email, password })
+        })
+        const data = await res.json()
+            if(data.user) {
                 location.assign('/')
             }
         }
-        catch (error) {
-            console.info(error)
+        catch (err) {
+            console.info(err)
         }
     })
 

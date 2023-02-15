@@ -1,22 +1,24 @@
 <h2 class="title is-2">Sign Up Page</h2>
-<form>
-    <label class="label" for="name">Name</label>
-    <input class="input" name="name" type="text" required/>
-    <label class="label" for="email">email</label>
-    <input class="input" name="email" type="email" required/>
-    <label class="label" for="password">Password</label>
-    <input class="input" name="password" type="password" required/>
-    <div>
-        <button class="button is-success">Sign Up</button>
-    </div>
-           
-</form>
+<section>
+    <form>
+        <label class="label" for="name">Name</label>
+        <input class="input" name="name" type="text" required/>
+        <label class="label" for="email">email</label>
+        <input class="input" name="email" type="email" required/>
+        <label class="label" for="password">Password</label>
+        <input class="input" name="password" type="password" required/>
+        <div>
+            <button class="button is-success">Sign Up</button>
+        </div>
+            
+    </form>
+</section>
 
 
 <script>
     const signup = document.querySelector('form')
     
-    const submit = signup.addEventListener('submit', async (e) => {
+    signup.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         // Get the Value

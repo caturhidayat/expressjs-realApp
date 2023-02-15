@@ -29,12 +29,28 @@ class authController {
         res.render("login");
     }
 
-    postLogin(req, res) {
-        
+    async postLogin(req, res) {
+        const { email, password } = req.body
+
+        try {
+            const user = await prisma.user.findUnique({
+                where: { email: email }
+            })
+            const matchPass = comparePassword(password, user.password)
+
+            if(user) {
+                if(matchPass) {
+                    res.status(200).json({ user })
+                }
+            }
+            
+        } catch (error) {
+            res.status(400).json({ error })
+        }
     }
 
     getProfile(req, res) {
-        res.render('pofile')
+        res.render('profile')
     }
 }
 

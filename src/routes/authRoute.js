@@ -14,7 +14,7 @@ authRoute.post("/login", AuthController.postLogin);
 // Profile
 authRoute.get(
     "/profile",
-    passport.authenticate("jwt", { session: false }),
+    // passport.authenticate("jwt", { session: false }),
     AuthController.getProfile
 );
 

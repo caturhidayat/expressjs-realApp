@@ -1,8 +1,9 @@
 import { Router } from "express";
 import passport from "passport";
-import { authController } from '../controllers/authController.js'
+import { Strategy as JwtStrategy } from "passport-jwt";
+import { authController } from "../controllers/authController.js";
 
-const AuthController = new authController()
+const AuthController = new authController();
 const authRoute = Router();
 
 // Auth
@@ -14,7 +15,9 @@ authRoute.post("/login", AuthController.postLogin);
 // Profile
 authRoute.get(
     "/profile",
-    // passport.authenticate("jwt", { session: false }),
+    passport.authenticate("jwt", {
+        session: false,
+    }),
     AuthController.getProfile
 );
 

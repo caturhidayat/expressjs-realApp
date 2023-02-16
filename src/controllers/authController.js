@@ -1,5 +1,6 @@
 import { prisma } from "../prisma/prisma.js";
 import { hashPassword, comparePassword } from "../utils/bcrypt.js";
+import jwt from 'jsonwebtoken'
 
 
 class authController {
@@ -36,21 +37,26 @@ class authController {
             const user = await prisma.user.findUnique({
                 where: { email: email }
             })
+            
             const matchPass = comparePassword(password, user.password)
-
+            
             if(user) {
                 if(matchPass) {
-                    res.status(200).json({ user })
+                    // delete user.password
+                    const token = jwt.sign({ user }, process.env.SECRET_KEY)
+                    console.info(token) 
+                    res.cookie('jwt', token, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 })
+                    res.status(200).json({ user: user.id })
                 }
             }
             
-        } catch (error) {
-            res.status(400).json({ error })
+        } catch (err) {
+            res.status(400).json({ isError: err.message })
         }
     }
 
     getProfile(req, res) {
-        res.render('profile')
+        res.redirect('/profile')
     }
 }
 

@@ -12,6 +12,9 @@ authRoute.post("/signup", AuthController.postSignup);
 authRoute.get("/login", AuthController.getLogin);
 authRoute.post("/login", AuthController.postLogin);
 
+// Logout
+authRoute.get('/logout', AuthController.getLogout)
+
 // Profile
 authRoute.get("/profile", requireAuth, AuthController.getProfile);
 

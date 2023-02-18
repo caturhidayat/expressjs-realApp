@@ -50,7 +50,7 @@ class authController {
                 const matchPass = await comparePassword(password, user.password)
                 if(matchPass) {
                     const token = await createToken(user.id)
-                    console.info({ token: token}) 
+                    // console.info({ token: token}) 
                     res.cookie('jwt', token, { httpOnly: true, maxAge: 1000 * maxAge })
                     res.status(200).json({ user: user.id })
                 }
@@ -63,6 +63,11 @@ class authController {
 
     getProfile(req, res) {
         res.render('profile')
+    }
+
+    getLogout(req, res) {
+        res.cookie('jwt', '', { maxAge: 1 })
+        res.redirect('/')
     }
 }
 

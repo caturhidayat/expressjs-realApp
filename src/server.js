@@ -3,7 +3,10 @@ const app = express();
 import * as dotenv from 'dotenv';
 import cors from 'cors';
 dotenv.config();
+import cookieParser from "cookie-parser";
 import { engine } from "express-handlebars";
+import { isLoggedIn } from "./middlewares/authMiddleware.js";
+
 
 
 // Middleware
@@ -13,6 +16,8 @@ app.use(cors());
 app.engine('hbs', engine())
 app.set('view engine', 'hbs')
 app.set('views', './views')
+app.use(cookieParser())
+app.get('*', isLoggedIn)
 
 
 

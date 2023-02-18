@@ -3,6 +3,13 @@ import { hashPassword, comparePassword } from "../utils/bcrypt.js";
 import jwt from 'jsonwebtoken'
 
 
+// Create Token
+const maxAge = 60 * 60 * 24
+const secret = process.env.TOKEN_SECRET
+const createToken = (id) => {
+    return jwt.sign({ id }, secret, { expiresIn: '1d'})
+}
+
 class authController {
 
     getSignup(req, res) {
@@ -40,13 +47,11 @@ class authController {
             
             
             if(user) {
-                const matchPass = comparePassword(password, user.password)
+                const matchPass = await comparePassword(password, user.password)
                 if(matchPass) {
-                    // delete user.password
-                    const token = jwt.sign({ user }, process.env.SECRET_KEY)
-                    console.info(process.env.SECRET_KEY)
+                    const token = await createToken(user.id)
                     console.info({ token: token}) 
-                    res.cookie('jwt', token, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 })
+                    res.cookie('jwt', token, { httpOnly: true, maxAge: 1000 * maxAge })
                     res.status(200).json({ user: user.id })
                 }
             }
@@ -57,7 +62,7 @@ class authController {
     }
 
     getProfile(req, res) {
-        res.redirect('/profile')
+        res.render('profile')
     }
 }
 

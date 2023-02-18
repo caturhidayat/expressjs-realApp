@@ -38,13 +38,14 @@ class authController {
                 where: { email: email }
             })
             
-            const matchPass = comparePassword(password, user.password)
             
             if(user) {
+                const matchPass = comparePassword(password, user.password)
                 if(matchPass) {
                     // delete user.password
                     const token = jwt.sign({ user }, process.env.SECRET_KEY)
-                    console.info(token) 
+                    console.info(process.env.SECRET_KEY)
+                    console.info({ token: token}) 
                     res.cookie('jwt', token, { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 })
                     res.status(200).json({ user: user.id })
                 }

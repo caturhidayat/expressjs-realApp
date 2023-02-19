@@ -10,10 +10,10 @@ const requireAuth = (req, res, next) => {
     if(token) {
         jwt.verify(token, secret, (err, decodeToken) => {
             if(err) {
-                console.info(err.message)
+                // console.info(err.message)
                 res.redirect('/login')
             } else {
-                console.info(decodeToken)
+                // console.info({decodeToken: decodeToken})
                 next()
             }
         })
@@ -24,7 +24,8 @@ const requireAuth = (req, res, next) => {
 
 const isLoggedIn = (req, res, next) => {
     const token = req.cookies.jwt
-
+    
+    
     if(token) {
         jwt.verify(token, secret, async (err, decodeToken) => {
             if(err) {

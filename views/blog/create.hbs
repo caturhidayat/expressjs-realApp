@@ -4,26 +4,28 @@
         <label class="label" for="tittle">Tittle</label>
         <input class="input" type="text" name="tittle" required />
         <label class="label" for="content">Content</label>
-        <textarea class="textarea" name="content" id="" cols="30" rows="10"></textarea>
+        <input class="input" type="text" name="content" required />
+        {{!-- <textarea class="textarea" name="content" id="" cols="30" rows="10"></textarea> --}}
         <button class="button is-success">
-        Create Article
+            Create Article
         </button>
 
     </form>
 </section>
 
 <script>
-    const article = document.querySelector('form')
+    const blog = document.querySelector('form')
     
-    article.addEventListener('submit', async (e) => {
+    blog.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         // Get the Value
-        const tittle = article.tittle.value;
-        const content = article.content.value;
+        const tittle = blog.tittle.value;
+        const content = blog.content.value;
+    
 
         try {
-            const res = await fetch('/blogs/create', {
+            const res = await fetch('/blogs/cp', {
             method: 'POST',
             headers: { 
                 "Content-Type": "application/json"
@@ -32,13 +34,11 @@
         })
         const data = await res.json()
             if(data.article) {
-                console.table(data.article)
-                location.assign('/blogs')
+                location.assign('/')
             }
         }
         catch (err) {
             console.info(err)
         }
     })
-
 </script>

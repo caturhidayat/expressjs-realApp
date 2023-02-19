@@ -11,10 +11,11 @@ import { blogRoute } from './routes/blogRoute.js';
 // ROUTE
 app.use('/', main);
 app.use('/', authRoute)
-app.use('/blogs', blogRoute)
+app.use('/blogs', requireAuth, blogRoute)
 
 
 // RUN APP
 app.listen(port, () => {
     console.info(`⚡️ [Server] running on http://localhost:${port}`)
 })
+

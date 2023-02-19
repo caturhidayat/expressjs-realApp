@@ -1,18 +1,18 @@
 <div class="card">
   <div class="card-content">
     <div class="media">
+    {{#if user}}
       <div class="media-left">
         <figure class="image is-48x48">
-          <img src="https://loremflickr.com/320/240?random=1" />
+          <img src="https://loremflickr.com/320/240?random={{user.id}}" />
         </figure>
       </div>
       <div class="media-content">
-        {{#if user}}
             <p class="title is-4">{{user.name}}</p>
             <p class="subtitle is-6">{{user.email}} </p> 
-        {{/if}}
       </div>
     </div>
+    {{/if}}
 
     <div class="content">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit.

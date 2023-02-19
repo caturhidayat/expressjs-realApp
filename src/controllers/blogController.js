@@ -1,41 +1,46 @@
 import { prisma } from "../prisma/prisma.js";
+import jwt from 'jsonwebtoken'
+
+const secret = process.env.TOKEN_SECRET
 
 class blogController {
-    async create(req, res) {
+    async postBlog(req, res) {
         const { tittle, content } = req.body;
-        const { id } = req.cookies.jwt;
-
+        const token = req.cookies.jwt
+        const user = jwt.verify(token, secret)
         try {
             const article = await prisma.blog.create({
                 data: {
-                    tittle,
-                    content,
+                    tittle: tittle,
+                    content: content,
                     author: {
                         connect: {
-                            id,
+                            id : user.id,
                         },
                     },
                 },
+                include: { author: true }
             });
             res.status(201).json({ article })
+            // console.table(article)
             
         } catch (error) {
-            res.status(400).json({ error })
+            res.status(400).json({ error: error.message })
         }
     }
 
-    getCreate(req, res) {
+    getCreateBlog(req, res) {
         res.render('blog/create')
     }
 
-    async getArticle(req, res) {
+    async getBlogs(req, res) {
 
         try {
             const article = await prisma.blog.findMany({})
             // res.status(200).json({ article })
             res.render('blog/blogs', { article: article })
         } catch (error) {
-            res.status(400).json({ error })
+            res.status(400).json({ errors : error.message })
         }
     }
 }

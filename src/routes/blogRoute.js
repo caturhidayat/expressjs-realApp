@@ -8,10 +8,10 @@ const blogRoute = Router();
 const BlogController = new blogController()
 
 // Auth
-blogRoute.get("/create", BlogController.getCreate);
-blogRoute.post("/create", BlogController.create);
+blogRoute.get("/create", BlogController.getCreateBlog);
+blogRoute.post("/cp", BlogController.postBlog);
 
-blogRoute.get("/", BlogController.getArticle);
+blogRoute.get("/", BlogController.getBlogs);
 blogRoute.post("/:id", );
 blogRoute.get("/update", );
 blogRoute.post("/delete", );

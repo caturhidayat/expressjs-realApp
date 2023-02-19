@@ -1,0 +1,44 @@
+<h2 class="title is-2">Create Article</h2>
+<section>
+    <form>
+        <label class="label" for="tittle">Tittle</label>
+        <input class="input" type="text" name="tittle" required />
+        <label class="label" for="content">Content</label>
+        <textarea class="textarea" name="content" id="" cols="30" rows="10"></textarea>
+        <button class="button is-success">
+        Create Article
+        </button>
+
+    </form>
+</section>
+
+<script>
+    const article = document.querySelector('form')
+    
+    article.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Get the Value
+        const tittle = article.tittle.value;
+        const content = article.content.value;
+
+        try {
+            const res = await fetch('/blogs/create', {
+            method: 'POST',
+            headers: { 
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ tittle, content })
+        })
+        const data = await res.json()
+            if(data.article) {
+                console.table(data.article)
+                location.assign('/blogs')
+            }
+        }
+        catch (err) {
+            console.info(err)
+        }
+    })
+
+</script>

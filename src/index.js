@@ -3,12 +3,15 @@ const port = process.env.PORT
 
 // Import routes
 import { main } from './routes/index.js'
+import { requireAuth } from "./middlewares/authMiddleware.js";
 import { authRoute } from './routes/authRoute.js';
+import { blogRoute } from './routes/blogRoute.js';
 
 
 // ROUTE
 app.use('/', main);
 app.use('/', authRoute)
+app.use('/blogs', blogRoute)
 
 
 // RUN APP

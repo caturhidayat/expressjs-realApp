@@ -12,7 +12,7 @@ blogRoute.get("/create", BlogController.getCreateBlog);
 blogRoute.post("/cp", BlogController.postBlog);
 
 blogRoute.get("/", BlogController.getBlogs);
-blogRoute.post("/:id", );
+blogRoute.get("/:id", BlogController.getBlog);
 blogRoute.get("/update", );
 blogRoute.post("/delete", );
 

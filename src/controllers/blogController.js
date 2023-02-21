@@ -7,7 +7,9 @@ class blogController {
     async postBlog(req, res) {
         const { tittle, content } = req.body;
         const token = req.cookies.jwt
-        const user = jwt.verify(token, secret)
+        // const user = jwt.verify(token, secret)
+        console.info({ userFromDecode: req.user })
+        
         try {
             const article = await prisma.blog.create({
                 data: {
@@ -15,12 +17,13 @@ class blogController {
                     content: content,
                     author: {
                         connect: {
-                            id : user.id,
+                            id : req.user.id,
                         },
                     },
                 },
                 include: { author: true }
             });
+            console.info({ article })
             res.status(201).json({ article })
             // console.table(article)
             
@@ -42,6 +45,15 @@ class blogController {
         } catch (error) {
             res.status(400).json({ errors : error.message })
         }
+    }
+
+    async getBlog(req, res) {
+        const id  = parseInt(req.params.id)
+
+        const article = await prisma.blog.findUnique({
+            where: { id }
+        })
+        res.render('blog/blog', { article: article })
     }
 }
 

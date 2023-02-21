@@ -10,7 +10,9 @@
           </figure>
         </div>
         <div class="media-content">
+          <a href="/blogs/{{this.id}}">
               <p class="title is-4">{{this.tittle}}</p>
+          </a>
               {{!-- <p class="subtitle is-6">{{user.email}} </p>  --}}
         </div>
       </div>
@@ -18,14 +20,16 @@
       <div class="content">
         {{this.content}}
         <br>
-        {{#each this.author}}
-        <h3 class="title is-3">{{this.name}}</h3>
+        {{!-- {{#author}} --}}
+        <h3 class="title is-3">{{@../name}}</h3>
         {{!-- <h3 class="title is-3">{{this.user}}</h3> --}}
         {{!-- <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time> --}}
-        {{/each}}
+        {{!-- {{/author}} --}}
       </div>
     </div>
   </div>
 </section>
 {{/each}}
+
+
 

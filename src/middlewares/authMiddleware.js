@@ -14,6 +14,7 @@ const requireAuth = (req, res, next) => {
                 res.redirect('/login')
             } else {
                 // console.info({decodeToken: decodeToken})
+                req.user = decodeToken
                 next()
             }
         })
@@ -35,6 +36,7 @@ const isLoggedIn = (req, res, next) => {
                 let user = await prisma.user.findUnique({
                     where: { id : decodeToken.id}
                 })
+                req.user = user
                 res.locals.user = user
                 next()
             }

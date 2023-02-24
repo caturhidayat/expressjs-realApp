@@ -39,7 +39,11 @@ class blogController {
     async getBlogs(req, res) {
 
         try {
-            const article = await prisma.blog.findMany({})
+            const article = await prisma.blog.findMany({
+                include: {
+                    author: true
+                }
+            })
             // res.status(200).json({ article })
             res.render('blog/blogs', { article: article })
         } catch (error) {

@@ -6,30 +6,27 @@
         <div class="media-left">
             
           <figure class="image is-48x48">
-            <img src="https://loremflickr.com/320/240?random={{this.id}}" />
+            <img src="https://loremflickr.com/320/240?random={{id}}" />
           </figure>
         </div>
         <div class="media-content">
-          <a href="/blogs/{{this.id}}">
-              <p class="title is-4">{{this.tittle}}</p>
+          <a href="/blogs/{{id}}">
+              <p class="title is-4">{{tittle}}</p>
           </a>
               {{!-- <p class="subtitle is-6">{{user.email}} </p>  --}}
         </div>
       </div>
 
       <div class="content">
-        {{this.content}}
+        {{content}}
         <br>
-        {{!-- {{#author}} --}}
-        <h3 class="title is-3">{{@../name}}</h3>
         {{!-- <h3 class="title is-3">{{this.user}}</h3> --}}
         {{!-- <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time> --}}
-        {{!-- {{/author}} --}}
       </div>
+      <h6 class="title is-6">{{author.name}}</h6>
     </div>
   </div>
 </section>
 {{/each}}
-
 
 

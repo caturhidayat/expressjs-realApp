@@ -10,11 +10,13 @@
           </figure>
         </div>
         <div class="media-content">
-          <a href="/blogs/{{id}}">
+          <a id="url" href="/blogs/{{id}}">
               <p class="title is-4">{{tittle}}</p>
           </a>
-              {{!-- <p class="subtitle is-6">{{user.email}} </p>  --}}
         </div>
+        <form method="POST" action="/blogs/{{id}}">
+          <button class="delete is-medium" id="deleteItem"></button>
+        </form>
       </div>
 
       <div class="content">

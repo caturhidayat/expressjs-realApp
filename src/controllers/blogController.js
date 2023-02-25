@@ -38,8 +38,10 @@ class blogController {
 
     async getBlogs(req, res) {
 
+        console.info({ userFromDecode: req.user })
         try {
             const article = await prisma.blog.findMany({
+                where: { authorId: req.user.id },
                 include: {
                     author: true
                 }
@@ -58,6 +60,14 @@ class blogController {
             where: { id }
         })
         res.render('blog/blog', { article: article })
+    }
+
+    async deleteBlog(req, res) {
+        const id  = parseInt(req.params.id)
+        const article = await prisma.blog.delete({
+            where: { id }
+        })
+        res.redirect('/blogs')
     }
 }
 

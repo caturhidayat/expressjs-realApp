@@ -14,7 +14,7 @@ blogRoute.post("/cp", BlogController.postBlog);
 blogRoute.get("/", BlogController.getBlogs);
 blogRoute.get("/:id", BlogController.getBlog);
 blogRoute.get("/update", );
-blogRoute.post("/delete", );
+blogRoute.post("/:id", BlogController.deleteBlog);
 
 
 

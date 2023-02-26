@@ -1,0 +1,44 @@
+<h2 class="title is-2">Sign Up Page</h2>
+<section>
+    <form>
+        <label class="label" for="email">email</label>
+        <input class="input" type="email" name="email" required />
+        <label class="label" for="password">Password</label>
+        <input class="input" type="password" name="password" required />
+        <button class="button is-success">
+        Login
+        </button>
+
+    </form>
+</section>
+
+<script>
+    const login = document.querySelector('form')
+    
+    login.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Get the Value
+        const email = login.email.value;
+        const password = login.password.value;
+
+        try {
+            const res = await fetch('/login', {
+            method: 'POST',
+            headers: { 
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password })
+        })
+        const data = await res.json()
+            if(data.user) {
+                console.table(data.user)
+                location.assign('/profile')
+            }
+        }
+        catch (err) {
+            console.info(err)
+        }
+    })
+
+</script>

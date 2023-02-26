@@ -6,8 +6,8 @@ import { isLoggedIn } from "../middlewares/jwt.js";
 const AuthController = new authController()
 const main = Router();
 
-main.get("/", async (req, res, next) => {
-    res.render("index", { tittle: "Home Page" });
+main.get("/", (req, res) => {
+  res.render('index', { meessage: 'Bulma ⚡️'});
 });
 
 // Auth Loggin

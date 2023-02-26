@@ -1,0 +1,36 @@
+{{#each article}}
+<section class="field">
+  <div class="card">
+    <div class="card-content">
+      <div class="media">
+        <div class="media-left">
+            
+          <figure class="image is-48x48">
+            <img src="https://loremflickr.com/320/240?random={{id}}" />
+          </figure>
+        </div>
+        <div class="media-content">
+          <a href="/blogs/{{id}}">
+              <p class="title is-4">{{tittle}}</p>
+          </a>
+        </div>
+        
+        
+        
+      </div>
+
+      <div class="content">
+        {{content}}
+        <br>
+        {{!-- <h3 class="title is-3">{{this.user}}</h3> --}}
+        {{!-- <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time> --}}
+      </div>
+
+      <span class="tag is-rounded">Author 👉🏼 {{author.name}}</span>
+      
+    </div>
+  </div>
+</section>
+{{/each}}
+
+

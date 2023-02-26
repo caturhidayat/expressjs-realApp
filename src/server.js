@@ -3,24 +3,11 @@ const app = express();
 import * as dotenv from "dotenv";
 import cors from "cors";
 dotenv.config();
-import { createHmac } from "crypto";
-import cookieParser from 'cookie-parser'
-import session from "express-session";
-import { engine } from 'express-handlebars'
-import path from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-
-// Template Engine
-app.engine('hbs', engine());
-app.set('view engine', 'hbs');
-app.set('views', './views');
+import cookieParser from "cookie-parser";
+import { engine } from "express-handlebars";
+import { isLoggedIn } from "./middlewares/authMiddleware.js";
 
 
-// Static Dir / Files
-app.use(express.static('public'))
 
 // Middleware
 app.use(express.json());
@@ -32,7 +19,13 @@ app.use(session({
     saveUninitialized: false
 }))
 app.use(cors());
-app.use(cookieParser());
+app.engine('hbs', engine())
+app.set('view engine', 'hbs')
+app.set('views', './views')
+app.use(cookieParser())
+app.get('*', isLoggedIn)
+
+
 
 
 

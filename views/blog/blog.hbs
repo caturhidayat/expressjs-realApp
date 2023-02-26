@@ -1,0 +1,32 @@
+{{#article}}
+<section class="field">
+  <div class="card">
+    <div class="card-content">
+      <div class="media">
+        <div class="media-left">
+            
+          <figure class="image is-48x48">
+            <img src="https://loremflickr.com/320/240?random={{id}}" />
+          </figure>
+        </div>
+        <div class="media-content">
+          <a id="url" href="/blogs/{{id}}">
+              <p class="title is-4">{{tittle}}</p>
+          </a>
+        </div>
+        <form method="POST" action="/blogs/{{id}}">
+          <button class="delete is-medium" id="deleteItem"></button>
+        </form>
+      </div>
+
+      <div class="content">
+        {{content}}
+        <br>
+      </div>
+    </div>
+  </div>
+</section>
+{{/article}}
+
+
+

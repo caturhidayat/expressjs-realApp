@@ -23,10 +23,26 @@
         {{content}}
         <br>
       </div>
+      
+      <button class="button is-success is-outlined" id="back">
+        <span>👈🏼 Back to blogs</span>
+      </button>
+
     </div>
   </div>
 </section>
 {{/article}}
+
+<script>
+  const span = document.getElementById("back")
+
+  span.addEventListener("click", (e) => {
+    e.preventDefault()
+    location.assign("/blogs")
+    //alert("Hello")
+  })
+
+</script>
 
 
 

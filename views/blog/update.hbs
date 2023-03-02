@@ -1,17 +1,32 @@
-<h2 class="title is-2">Create Article</h2>
+<h2 class="title is-2">Edit Article</h2>
+{{#article}}
 <section>
     <form>
         <label class="label" for="tittle">Tittle</label>
-        <input class="input" type="text" name="tittle" required />
+        <input class="input" type="text" name="tittle" value="{{tittle}}" required />
         <label class="label" for="content">Content</label>
         {{!-- <input class="input" type="text" name="content" required /> --}}
-        <textarea class="textarea" name="content" id="" cols="30" rows="10"></textarea>
-        <button class="button is-success">
-            Create Article
-        </button>
+        <textarea class="textarea" name="content" id="" cols="30" rows="10">{{content}}</textarea>
+        
 
+        <div class="buttons">
+        <a>
+          <button onclick="history.back()" class="button is-success is-outlined">
+                👈🏼 Back
+          </button>
+        </a>
+      </div>
+      
+      <div class="buttons is-right">
+          <button class="button is-link" id="update">
+              <span>Save</span>
+          </button>
+      </div>
     </form>
+
+
 </section>
+
 
 <script>
     const blog = document.querySelector('form')
@@ -25,8 +40,8 @@
     
 
         try {
-            const res = await fetch('/blogs/create-post', {
-            method: 'POST',
+            const res = await fetch('/blogs/update/{{id}}', {
+            method: 'PATCH',
             headers: { 
                 "Content-Type": "application/json"
             },
@@ -34,7 +49,7 @@
         })
         const data = await res.json()
             if(data.article) {
-                location.assign('/blogs')
+                location.assign('/blogs/{{id}}')
             }
         }
         catch (err) {
@@ -42,3 +57,5 @@
         }
     })
 </script>
+
+{{/article}}

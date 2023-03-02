@@ -22,11 +22,45 @@
       <div class="content">
         {{content}}
         <br>
+      <span class="tag is-rounded">Author 👉🏼 {{author.name}}</span>
       </div>
-    </div>
+      
+      
+      {{!-- <button class="button is-success is-outlined" id="back">
+        <span>👈🏼 Back to blogs</span>
+      </button> --}}
+
+      <div class="buttons">
+        <a href="/blogs">
+          <button class="button is-success is-outlined" id="update">
+              <span>👈🏼 Back to blogs</span>
+          </button>
+        </a>
+      </div>
+      
+      <div class="buttons is-right">
+        <a href="/blogs/update/{{id}}">
+          <button class="button is-primary" id="update">
+              <span>Edit 📝 </span>
+          </button>
+        </a>
+      </div>
+
+    </div> 
   </div>
 </section>
 {{/article}}
+
+<script>
+  /*const back = document.getElementById("back")
+
+  back.addEventListener("click", (e) => {
+    e.preventDefault()
+    location.assign("/blogs")
+    //alert("Hello")
+  })
+
+</script>
 
 
 

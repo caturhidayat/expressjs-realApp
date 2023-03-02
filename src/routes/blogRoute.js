@@ -15,6 +15,7 @@ blogRoute.get("/", BlogController.getBlogs);
 blogRoute.get("/:id", BlogController.getBlog);
 blogRoute.get("/update/:id", BlogController.getUpdate);
 blogRoute.patch("/update/:id", BlogController.postUpdate);
+blogRoute.patch("/publish/:id", BlogController.postPublish);
 
 blogRoute.post("/:id", BlogController.deleteBlog);
 

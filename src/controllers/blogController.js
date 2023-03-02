@@ -4,6 +4,15 @@ import jwt from 'jsonwebtoken'
 const secret = process.env.TOKEN_SECRET
 
 class blogController {
+
+    async getHome(req, res) {
+        const article = await prisma.blog.findMany({
+            where: { published: true },
+            include: { author: true }
+        })
+        res.render('index', { article: article })
+    }
+
     async postBlog(req, res) {
         const { tittle, content } = req.body;
         const token = req.cookies.jwt
@@ -84,12 +93,24 @@ class blogController {
     async postUpdate(req, res) {
         const id  = parseInt(req.params.id)
         // console.table({ this_id: id})
-        const { tittle, content } = req.body
+        const { tittle, content, publish } = req.body
+        const published = publish === "true" ? true : false
         const article = await prisma.blog.update({
             where: { id: id },
             data: {
                 tittle: tittle,
-                content: content
+                content: content,
+                published: published
+            }
+        })
+        res.status(201).json({ article })
+    }
+    async postPublish(req, res) {
+        const id  = parseInt(req.params.id)
+        const article = await prisma.blog.update({
+            where: { id: id },
+            data: {
+                published: true
             }
         })
         res.status(201).json({ article })

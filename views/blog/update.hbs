@@ -7,8 +7,20 @@
         <label class="label" for="content">Content</label>
         {{!-- <input class="input" type="text" name="content" required /> --}}
         <textarea class="textarea" name="content" id="" cols="30" rows="10">{{content}}</textarea>
-        
-
+        <br>
+        <div class="select is-primary">
+            
+            <select class="status" name="publish">
+                {{#if published}}
+                    <option value=true>Publish</option>
+                    <option value=false>Draft</option>
+                    {{else}}
+                    <option value=false>Draft</option>
+                    <option value=true>Publish</option>
+                {{/if}}
+            </select>
+        </div>
+        <br><br>
         <div class="buttons">
         <a>
           <button onclick="history.back()" class="button is-success is-outlined">
@@ -23,8 +35,6 @@
           </button>
       </div>
     </form>
-
-
 </section>
 
 
@@ -37,6 +47,7 @@
         // Get the Value
         const tittle = blog.tittle.value;
         const content = blog.content.value;
+        const publish = blog.publish.value;
     
 
         try {
@@ -45,7 +56,7 @@
             headers: { 
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ tittle, content })
+            body: JSON.stringify({ tittle, content, publish })
         })
         const data = await res.json()
             if(data.article) {

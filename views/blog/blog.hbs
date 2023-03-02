@@ -6,7 +6,7 @@
         <div class="media-left">
             
           <figure class="image is-48x48">
-            <img src="https://loremflickr.com/320/240?random={{id}}" />
+            {{!-- <img src="https://loremflickr.com/320/240?random={{id}}" /> --}}
           </figure>
         </div>
         <div class="media-content">
@@ -15,7 +15,11 @@
           </a>
         </div>
         <form method="POST" action="/blogs/{{id}}">
-          <button class="delete is-medium" id="deleteItem"></button>
+        {{#if isLoggedIn}}
+          <button class="delete is-large" id="deleteItem"></button>
+          {{else}}
+          <button class="delete is-medium"></button>
+        {{/if}}
         </form>
       </div>
 
@@ -24,43 +28,37 @@
         <br>
       <span class="tag is-rounded">Author 👉🏼 {{author.name}}</span>
       </div>
-      
-      
-      {{!-- <button class="button is-success is-outlined" id="back">
-        <span>👈🏼 Back to blogs</span>
-      </button> --}}
 
-      <div class="buttons">
-        <a href="/blogs">
-          <button class="button is-success is-outlined" id="update">
-              <span>👈🏼 Back to blogs</span>
-          </button>
-        </a>
-      </div>
+      {{#if isLoggedIn}}
+        <div class="buttons">
+          <a href="/blogs">
+            <button class="button is-success is-outlined" id="update">
+                <span>👈🏼 Back to blogs</span>
+            </button>
+          </a>
+        </div>
       
-      <div class="buttons is-right">
-        <a href="/blogs/update/{{id}}">
-          <button class="button is-primary" id="update">
-              <span>Edit 📝 </span>
-          </button>
-        </a>
-      </div>
+        <div class="buttons is-right">
+          <a href="/blogs/update/{{id}}">
+            <button class="button is-primary" id="update">
+                <span>Edit 📝 </span>
+            </button>
+          </a>
+        </div>
+        {{else}}
+         <div class="buttons">
+          <a href="/">
+            <button class="button is-success is-outlined" id="update">
+                <span>👈🏼 Back to Home</span>
+            </button>
+          </a>
+        </div>
+      {{/if}}
 
     </div> 
   </div>
 </section>
 {{/article}}
-
-<script>
-  /*const back = document.getElementById("back")
-
-  back.addEventListener("click", (e) => {
-    e.preventDefault()
-    location.assign("/blogs")
-    //alert("Hello")
-  })
-
-</script>
 
 
 

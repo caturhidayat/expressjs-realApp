@@ -1,4 +1,4 @@
-{{#each article}}
+{{#article}}
 <section class="field">
   <div class="card">
     <div class="card-content">
@@ -27,10 +27,19 @@
       </div>
 
       <span class="tag is-rounded">Author 👉🏼 {{author.name}}</span>
+      <br>
+      <br>
+      <div class="buttons is-right">
+        <a href="/blogs/update/{{id}}">
+          <button class="button is-primary" id="update">
+              <span>Edit 📝</span>
+          </button>
+        </a>
+      </div>
       
     </div>
   </div>
 </section>
-{{/each}}
+{{/article}}
 
 

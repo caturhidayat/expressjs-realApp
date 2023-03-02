@@ -23,7 +23,7 @@ class blogController {
                 },
                 include: { author: true }
             });
-            console.info({ article })
+            // console.info({ article })
             res.status(201).json({ article })
             // console.table(article)
             
@@ -57,7 +57,8 @@ class blogController {
         const id  = parseInt(req.params.id)
 
         const article = await prisma.blog.findUnique({
-            where: { id }
+            where: { id },
+            include: { author: true }
         })
         res.render('blog/blog', { article: article })
     }
@@ -68,6 +69,30 @@ class blogController {
             where: { id }
         })
         res.redirect('/blogs')
+    }
+
+    // get Update blog page
+    async getUpdate(req, res) {
+        const id  = parseInt(req.params.id)
+        const article = await prisma.blog.findUnique({
+            where: { id }
+        })
+        res.render(`blog/update`, { article })
+    }
+
+    // Update blog post / content
+    async postUpdate(req, res) {
+        const id  = parseInt(req.params.id)
+        // console.table({ this_id: id})
+        const { tittle, content } = req.body
+        const article = await prisma.blog.update({
+            where: { id: id },
+            data: {
+                tittle: tittle,
+                content: content
+            }
+        })
+        res.status(201).json({ article })
     }
 }
 

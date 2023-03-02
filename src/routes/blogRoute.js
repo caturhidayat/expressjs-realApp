@@ -9,11 +9,13 @@ const BlogController = new blogController()
 
 // Auth
 blogRoute.get("/create", BlogController.getCreateBlog);
-blogRoute.post("/cp", BlogController.postBlog);
+blogRoute.post("/create-post", BlogController.postBlog);
 
 blogRoute.get("/", BlogController.getBlogs);
 blogRoute.get("/:id", BlogController.getBlog);
-blogRoute.get("/update", );
+blogRoute.get("/update/:id", BlogController.getUpdate);
+blogRoute.patch("/update/:id", BlogController.postUpdate);
+
 blogRoute.post("/:id", BlogController.deleteBlog);
 
 

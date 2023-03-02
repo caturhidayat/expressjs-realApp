@@ -12,12 +12,12 @@ import { isLoggedIn } from "./middlewares/authMiddleware.js";
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(session({
-    name:'session', 
-    secret: process.env.SECRET,
-    resave: false,
-    saveUninitialized: false
-}))
+// app.use(session({
+//     name:'session', 
+//     secret: process.env.SECRET,
+//     resave: false,
+//     saveUninitialized: false
+// }))
 app.use(cors());
 app.engine('hbs', engine())
 app.set('view engine', 'hbs')

@@ -6,7 +6,7 @@
         <div class="media-left">
             
           <figure class="image is-48x48">
-            {{!-- <img src="https://loremflickr.com/320/240?random={{id}}" /> --}}
+            <img src="https://loremflickr.com/320/240?random={{id}}" />
           </figure>
         </div>
         <div class="media-content">
@@ -15,21 +15,31 @@
           </a>
         </div>
         <form method="POST" action="/blogs/{{id}}">
-        {{#if isLoggedIn}}
+  {{/article}}
+        {{#if user}}
           <button class="delete is-large" id="deleteItem"></button>
-          {{else}}
-          <button class="delete is-medium"></button>
         {{/if}}
         </form>
       </div>
-
       <div class="content">
+        {{#article}}
         {{content}}
+        {{/article}}
         <br>
-      <span class="tag is-rounded">Author 👉🏼 {{author.name}}</span>
+      {{#article}}
+        <span class="tag is-rounded">Author 👉🏼 {{author.name}}</span>
+      {{/article}}
+      {{#if user}}
+        {{#if published}}
+        <span class="tag is-primary is-rounded">Published</span>
+        {{else}}
+        {{!-- <span class="tag is-rounded is-warning">Draft</span> --}}
+        <span class="tag is-warning is-rounded">Draft</span>
+        {{/if}}
+      {{/if}}
       </div>
-
-      {{#if isLoggedIn}}
+  
+      {{#if user}}
         <div class="buttons">
           <a href="/blogs">
             <button class="button is-success is-outlined" id="update">
@@ -39,10 +49,12 @@
         </div>
       
         <div class="buttons is-right">
+           {{#article}}
           <a href="/blogs/update/{{id}}">
             <button class="button is-primary" id="update">
                 <span>Edit 📝 </span>
             </button>
+            {{/article}}
           </a>
         </div>
         {{else}}
@@ -58,7 +70,7 @@
     </div> 
   </div>
 </section>
-{{/article}}
+
 
 
 

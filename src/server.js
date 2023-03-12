@@ -10,6 +10,12 @@ import { isLoggedIn } from "./middlewares/authMiddleware.js";
 
 
 // Middleware
+app.use((error, req, res, next) => {
+    console.info("Error Handling Middleware called")
+    console.info("path: ", req.path)
+    next()
+})
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());

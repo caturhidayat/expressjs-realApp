@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { prisma } from "../prisma/prisma.js";
 import { hashPassword, comparePassword } from "../utils/bcrypt.js";
 import jwt from 'jsonwebtoken'
@@ -18,8 +19,16 @@ class authController {
 
     async postSignup(req, res) {
         const { name, email, password } = req.body
-        const hash = await hashPassword(password)
         try {
+            if(name.trim() === "") error.name = "Name Must not be Empty"
+            if(email.trim() === "") error.email = "Email Must not be Empty"
+            if(password.trim() === "") error.password = "Password Must not be Empty"
+
+            if(Object.keys(error).length > 0 ) {
+                throw error
+            }
+
+            const hash = await hashPassword(password)
             const user = await prisma.user.create({
                 data: {
                     name,
@@ -29,7 +38,8 @@ class authController {
             })
             res.status(201).json({ user: user.id })
         } catch (error) {
-            res.status(400).json({ error })
+            const errors = error instanceof Prisma.PrismaClientKnownRequestError
+            res.status(400).json({ errors })
         }
     }
 

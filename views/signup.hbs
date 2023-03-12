@@ -36,6 +36,11 @@
             body: JSON.stringify({ name, email, password })
         })
         const data = await res.json()
+            if(data.error) {
+                console.table(error.name)
+                console.table(error.email)
+                console.table(error.password)
+            }
             if(data.user) {
                 location.assign('/')
             }

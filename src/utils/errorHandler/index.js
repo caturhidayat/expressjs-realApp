@@ -1,11 +1,6 @@
 import reducer from './reducer.js'
 
-// export default (err, req, res, next) => {
-//     res.status(500).json({ error: err.message })
-// }
-
-
-export default (err, res, req, next) => {
+export default (err, req, res, next) => {
     // Get the error response details
     let { status, message, logError } = reducer(err)
 
@@ -26,5 +21,4 @@ export default (err, res, req, next) => {
 
 }
 
-// export { errorHandler }
 

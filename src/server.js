@@ -41,7 +41,7 @@ app
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+// app.use(cors());
 app.engine('hbs', engine())
 app.set('view engine', 'hbs')
 app.set('views', './views')

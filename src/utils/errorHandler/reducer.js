@@ -4,7 +4,7 @@ import errors from "./errors.js";
 // Default Error Details
 const defaultDetails = {
     status: 500,
-    message: `Something Failed!`,
+    message: 'Something failed!',
     logError: true
 }
 
@@ -16,7 +16,7 @@ export default (err) => {
                 ...defaultDetails,
                 status: 400,
                 message: 'Not authorized by CORS',
-                logError: true
+                logError: false
             }  
         default:
             return defaultDetails

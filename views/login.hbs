@@ -5,6 +5,8 @@
         <input class="input" type="email" name="email" required />
         <label class="label" for="password">Password</label>
         <input class="input" type="password" name="password" required />
+        <div class="has-text-danger" id="error"></div>
+        <br><br>
         <button class="button is-success">
         Login
         </button>
@@ -14,9 +16,13 @@
 
 <script>
     const login = document.querySelector('form')
+    const error = document.getElementById('error')
     
     login.addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        // Reset Error
+        error.innerHTML = ''
 
         // Get the Value
         const email = login.email.value;
@@ -31,6 +37,10 @@
             body: JSON.stringify({ email, password })
         })
         const data = await res.json()
+            if(data.error) {
+                console.log(error)
+                error.innerHTML = data.error
+            }
             if(data.user) {
                 console.table(data.user)
                 location.assign('/profile')

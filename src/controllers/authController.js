@@ -20,14 +20,6 @@ class authController {
     async postSignup(req, res) {
         const { name, email, password } = req.body
         try {
-            if(name.trim() === "") error.name = "Name Must not be Empty"
-            if(email.trim() === "") error.email = "Email Must not be Empty"
-            if(password.trim() === "") error.password = "Password Must not be Empty"
-
-            if(Object.keys(error).length > 0 ) {
-                throw error
-            }
-
             const hash = await hashPassword(password)
             const user = await prisma.user.create({
                 data: {
@@ -63,11 +55,17 @@ class authController {
                     // console.info({ token: token}) 
                     res.cookie('jwt', token, { httpOnly: true, maxAge: 1000 * maxAge })
                     res.status(200).json({ user: user.id })
+                } else {
+                    throw new Error('Email or Password wrong!')
+                    // throw new Error('Password wrong!')
                 }
+            } else {
+                // throw new Error('Email wrong!')
+                throw new Error('Email or Password wrong!')
             }
             
-        } catch (err) {
-            res.status(400).json({ isError: err.message })
+        } catch (error) {
+            res.status(404).json({ error: error.message })
         }
     }
 

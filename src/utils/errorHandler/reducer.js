@@ -22,7 +22,7 @@ export default (err) => {
         case errors.DUPLICATE_EMAIL:
             return {
                 ...defaultDetails,
-                status: 409,
+                status: 400,
                 message: 'Email already registered! a new user cannot be created with this email',
                 logError: true
             }  

@@ -1,18 +1,13 @@
 import { app } from './server.js';
 const port = process.env.PORT 
 
-// Import routes
-import { main } from './routes/index.js'
-import { requireAuth } from "./middlewares/authMiddleware.js";
-import { authRoute } from './routes/authRoute.js';
-import { blogRoute } from './routes/blogRoute.js';
+
+// Import error handler
+import errorHandler from './utils/errorHandler/index.js'
 
 
-// ROUTE
-app.use('/', main);
-app.use('/', authRoute)
-app.use('/blogs', requireAuth, blogRoute)
-
+// Middleware error handler
+app.use(errorHandler)
 
 // RUN APP
 app.listen(port, () => {

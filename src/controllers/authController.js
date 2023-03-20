@@ -21,13 +21,14 @@ async postSignup(req, res) {
     const { name, email, password } = req.body
     try {
 
-        // if(!name) throw new Error('auth/duplicateName')
-        // if(!email) throw new Error('auth/duplicateEmail')
-        // if(!password) throw new Error('auth/duplicatePassword')
+        // if(!name) throw new Error(`name/empty`)
+        // if(!email) throw new Error('email/empty')
+        // if(!password) throw new Error('password/empty')
 
         if(!name) throw new Error('Please fill name field')
         if(!email) throw new Error('Please fill email field')
         if(!password) throw new Error('Please fill password field')
+
 
         const hash = await hashPassword(password)
         const user = await prisma.user.create({
@@ -37,6 +38,8 @@ async postSignup(req, res) {
                 password: hash
             }
         })
+        
+
         res.status(201).json({ user: user.id })
     } catch (error) {
         

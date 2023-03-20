@@ -6,8 +6,12 @@ dotenv.config();
 import cookieParser from "cookie-parser";
 import { engine } from "express-handlebars";
 import { isLoggedIn } from "./middlewares/authMiddleware.js";
-import errorHandler from "./utils/errorHandler/index.js";
 
+// Import routes
+import { main } from './routes/index.js'
+import { requireAuth } from "./middlewares/authMiddleware.js";
+import { authRoute } from './routes/authRoute.js';
+import { blogRoute } from './routes/blogRoute.js';
 
 // Test CORS with Withlist
 // const withList = [
@@ -31,10 +35,12 @@ import errorHandler from "./utils/errorHandler/index.js";
 
 // Test some error handler
 app.get('/reducer', (req, res) => {
-    const nilai = false
+    const nilai = true
     try {
-        if(nilai) res.json({ message: `OK! 🔥`})
-        throw new Error(`auth/duplicateEmail`)
+        if(!nilai) {
+            throw new Error(`email/empty`)
+        }
+        res.json({ message: `OK! 🔥`})
     } catch (error) {
         throw error
         // res.json(error)
@@ -62,9 +68,11 @@ app.set('view engine', 'hbs')
 app.set('views', './views')
 app.use(cookieParser())
 app.get('*', isLoggedIn)
-app.use(errorHandler)
 
-
+// ROUTE
+app.use('/', main);
+app.use('/', authRoute)
+app.use('/blogs', requireAuth, blogRoute)
 
 
 export { app }

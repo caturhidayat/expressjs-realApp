@@ -2,6 +2,7 @@ import { Router } from "express";
 import { authController } from "../controllers/authController.js";
 import jwt from "jsonwebtoken";
 import { requireAuth } from "../middlewares/authMiddleware.js";
+import errorHandler from "../utils/errorHandler/index.js";
 
 const AuthController = new authController();
 const authRoute = Router();
@@ -29,4 +30,5 @@ authRoute.get("/get-cookies", (req, res) => {
     res.send(token)
 });
 
+authRoute.use(errorHandler)
 export { authRoute };

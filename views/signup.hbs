@@ -2,25 +2,28 @@
 <section>
     <form>
         <label class="label" for="name">Name</label>
-        <input class="input" name="name" type="text" required/>
+        <input class="input" name="name" type="text" />
         <label class="label" for="email">email</label>
-        <input class="input" name="email" type="email" required/>
+        <input class="input" name="email" type="email" />
         <label class="label" for="password">Password</label>
-        <input class="input" name="password" type="password" required/>
+        <input class="input" name="password" type="password"/>
+        <div class="has-text-danger" id="error"></div>
+        <br><br>
         <button class="button is-success">
         Signup
-        </button>
-
-            
+        </button>      
     </form>
 </section>
 
-
 <script>
     const signup = document.querySelector('form')
+    const error = document.getElementById('error')
     
     signup.addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        // Reset Error
+        error.innerHTML = ''
 
         // Get the Value
         const name = signup.name.value;
@@ -37,16 +40,15 @@
         })
         const data = await res.json()
             if(data.error) {
-                console.table(error.name)
-                console.table(error.email)
-                console.table(error.password)
+                //console.log({ isError: error })
+                error.innerHTML = data.error
             }
             if(data.user) {
                 location.assign('/')
             }
         }
-        catch (err) {
-            console.info(err)
+        catch (error) {
+            console.log(error)
         }
     })
 

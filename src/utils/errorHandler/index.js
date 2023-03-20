@@ -16,8 +16,7 @@ export default (err, req, res, next) => {
         })
     }
     // Send error response
-    res.status(status)
-    res.json({ error: message })
+    res.status(status).json({ error: message })
 
 }
 

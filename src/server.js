@@ -29,6 +29,20 @@ import errorHandler from "./utils/errorHandler/index.js";
 //     res.json({ message: 'CORS check passed successfully!'})
 // })
 
+// Test some error handler
+app.get('/reducer', (req, res) => {
+    const nilai = false
+    try {
+        if(nilai) res.json({ message: `OK! 🔥`})
+        throw new Error(`auth/duplicateEmail`)
+    } catch (error) {
+        throw error
+        // res.json(error)
+    }
+})
+
+
+
 // Error handler
 // app
 //     .get('*', (req, res, next) => {
@@ -42,7 +56,7 @@ import errorHandler from "./utils/errorHandler/index.js";
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(cors());
+app.use(cors());
 app.engine('hbs', engine())
 app.set('view engine', 'hbs')
 app.set('views', './views')

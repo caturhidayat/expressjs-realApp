@@ -22,8 +22,8 @@ export default (err) => {
         case errors.DUPLICATE_EMAIL:
             return {
                 ...defaultDetails,
-                status: 400,
-                message: 'Email already registered!',
+                status: 409,
+                message: 'Email already registered! a new user cannot be created with this email',
                 logError: true
             }  
         case errors.WRONG_USER:
@@ -31,6 +31,27 @@ export default (err) => {
                 ...defaultDetails,
                 status: 400,
                 message: 'Email or password incorrect',
+                logError: true
+            }  
+        case errors.NAME_EMPTY:
+            return {
+                ...defaultDetails,
+                status: 400,
+                message: 'Please Fill name field',
+                logError: true
+            }  
+        case errors.EMAIL_EMPTY:
+            return {
+                ...defaultDetails,
+                status: 400,
+                message: 'Please Fill email field',
+                logError: true
+            }  
+        case errors.PASSWORD_EMPTY:
+            return {
+                ...defaultDetails,
+                status: 400,
+                message: 'Please Fill Password field',
                 logError: true
             }  
         default:

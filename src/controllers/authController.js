@@ -8,75 +8,98 @@ import jwt from 'jsonwebtoken'
 const maxAge = 60 * 60 * 24
 const secret = process.env.TOKEN_SECRET
 const createToken = (id) => {
-    return jwt.sign({ id }, secret, { expiresIn: '1d'})
+return jwt.sign({ id }, secret, { expiresIn: '1d'})
 }
 
 class authController {
 
-    getSignup(req, res) {
-        res.render("signup");
-    }
+getSignup(req, res) {
+    res.render("signup");
+}
 
-    async postSignup(req, res) {
-        const { name, email, password } = req.body
-        try {
-            const hash = await hashPassword(password)
-            const user = await prisma.user.create({
-                data: {
-                    name,
-                    email,
-                    password: hash
-                }
-            })
-            res.status(201).json({ user: user.id })
-        } catch (error) {
-            const errors = error instanceof Prisma.PrismaClientKnownRequestError
-            res.status(400).json({ errors })
-        }
-    }
+async postSignup(req, res) {
+    const { name, email, password } = req.body
+    try {
 
-    getLogin(req, res) {
-        res.render("login");
-    }
+        // if(!name) throw new Error('auth/duplicateName')
+        // if(!email) throw new Error('auth/duplicateEmail')
+        // if(!password) throw new Error('auth/duplicatePassword')
 
-    async postLogin(req, res) {
-        const { email, password } = req.body
+        if(!name) throw new Error('Please fill name field')
+        if(!email) throw new Error('Please fill email field')
+        if(!password) throw new Error('Please fill password field')
 
-        try {
-            const user = await prisma.user.findUnique({
-                where: { email: email }
-            })
-            
-            
-            if(user) {
-                const matchPass = await comparePassword(password, user.password)
-                if(matchPass) {
-                    const token = await createToken(user.id)
-                    // console.info({ token: token}) 
-                    res.cookie('jwt', token, { httpOnly: true, maxAge: 1000 * maxAge })
-                    res.status(200).json({ user: user.id })
-                } else {
-                    throw new Error('Email or Password wrong!')
-                    // throw new Error('Password wrong!')
-                }
-            } else {
-                // throw new Error('Email wrong!')
-                throw new Error('Email or Password wrong!')
+        const hash = await hashPassword(password)
+        const user = await prisma.user.create({
+            data: {
+                name,
+                email,
+                password: hash
             }
-            
-        } catch (error) {
-            res.status(404).json({ error: error.message })
+        })
+        res.status(201).json({ user: user.id })
+    } catch (error) {
+        
+        // if(error instanceof Prisma.PrismaClientKnownRequestError) {
+        //     if(error.code === 'P2002') {
+        //         // console.table('a new user cannot be created with this email')
+        //         res.json({ message: 'a new user cannot be created with this email' })
+        //     } 
+        //     else {
+        //         res.json({ message: error.message })
+        //     }
+        // }
+        res.status(400).json({ error: error.message })
+        // throw error
+        // res.json(error)
+    }
+}
+
+getLogin(req, res) {
+    res.render("login");
+}
+
+async postLogin(req, res) {
+    const { email, password } = req.body
+
+    try {
+        if(!email) throw new Error('Please fill Email field')
+        if(!password) throw new Error('Please fill Password field')
+
+        const user = await prisma.user.findUnique({
+            where: { email: email }
+        })
+        
+        
+        if(user) {
+            const matchPass = await comparePassword(password, user.password)
+            if(matchPass) {
+                const token = await createToken(user.id)
+                // console.info({ token: token}) 
+                res.cookie('jwt', token, { httpOnly: true, maxAge: 1000 * maxAge })
+                res.status(200).json({ user: user.id })
+            } else {
+                throw new Error('Email or Password wrong!')
+                // throw new Error('Password wrong!')
+            }
+        } else {
+            // throw new Error('Email wrong!')
+            throw new Error('Email or Password wrong!')
         }
+        
+    } catch (error) {
+        res.status(404).json({ error: error.message })
     }
+}
 
-    getProfile(req, res) {
-        res.render('profile')
-    }
+getProfile(req, res) {
+    res.render('profile')
+}
 
-    getLogout(req, res) {
-        res.cookie('jwt', '', { maxAge: 1 })
-        res.redirect('/')
-    }
+getLogout(req, res) {
+    res.cookie('jwt', '', { maxAge: 1 })
+    res.redirect('/')
+}
 }
 
 

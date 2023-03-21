@@ -13,22 +13,28 @@ return jwt.sign({ id }, secret, { expiresIn: '1d'})
 
 class authController {
 
-getSignup(req, res) {
+getSignup(req, res, next) {
     res.render("signup");
 }
 
-async postSignup(req, res) {
+async postSignup(req, res, next) {
     const { name, email, password } = req.body
     try {
 
-        // if(!name) throw new Error(`name/empty`)
-        // if(!email) throw new Error('email/empty')
-        // if(!password) throw new Error('password/empty')
+        if(!name) throw new Error(`name/empty`)
+        if(!email) throw new Error('email/empty')
+        if(!password) throw new Error('password/empty')
 
-        if(!name) throw new Error('Please fill name field')
-        if(!email) throw new Error('Please fill email field')
-        if(!password) throw new Error('Please fill password field')
+        // if(!name) throw new Error('Please fill name field')
+        // if(!email) throw new Error('Please fill email field')
+        // if(!password) throw new Error('Please fill password field')
+        const checkEmail = await prisma.user.findUnique({
+            where: {
+                email: email
+            }
+        })
 
+        if(!checkEmail) throw new Error(`prisma/uniqueEmail`)
 
         const hash = await hashPassword(password)
         const user = await prisma.user.create({
@@ -38,7 +44,6 @@ async postSignup(req, res) {
                 password: hash
             }
         })
-        
 
         res.status(201).json({ user: user.id })
     } catch (error) {
@@ -46,14 +51,12 @@ async postSignup(req, res) {
         // if(error instanceof Prisma.PrismaClientKnownRequestError) {
         //     if(error.code === 'P2002') {
         //         // console.table('a new user cannot be created with this email')
-        //         res.json({ message: 'a new user cannot be created with this email' })
+        //         // res.json({ message: 'a new user cannot be created with this email' })
+        //         throw new Error(`prisma/uniqueEmail`)
         //     } 
-        //     else {
-        //         res.json({ message: error.message })
-        //     }
         // }
-        res.status(400).json({ error: error.message })
-        // throw error
+        // res.status(400).json({ error: error.message })
+        next(error)
         // res.json(error)
     }
 }

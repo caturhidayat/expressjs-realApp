@@ -4,5 +4,6 @@ export default {
     WRONG_USER: 'auth/wrongUserPassword',
     NAME_EMPTY: 'name/empty',
     EMAIL_EMPTY: 'email/empty',
-    PASSWORD_EMPTY: 'password/empty'
+    PASSWORD_EMPTY: 'password/empty',
+    PRISMA_UNIQUE_EMAIL: 'prisma/uniqueEmail'
 }

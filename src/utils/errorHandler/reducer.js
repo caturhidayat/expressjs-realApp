@@ -37,14 +37,14 @@ export default (err) => {
             return {
                 ...defaultDetails,
                 status: 400,
-                message: 'Please Fill name field',
+                message: 'Please fill Name field',
                 logError: true
             }  
         case errors.EMAIL_EMPTY:
             return {
                 ...defaultDetails,
                 status: 400,
-                message: 'Please Fill email field',
+                message: 'Please Fill Email field',
                 logError: true
             }  
         case errors.PASSWORD_EMPTY:
@@ -52,6 +52,13 @@ export default (err) => {
                 ...defaultDetails,
                 status: 400,
                 message: 'Please Fill Password field',
+                logError: true
+            }  
+        case errors.PRISMA_UNIQUE_EMAIL:
+            return {
+                ...defaultDetails,
+                status: 409,
+                message: 'a new user cannot be created with this email',
                 logError: true
             }  
         default:

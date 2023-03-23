@@ -6,6 +6,7 @@ dotenv.config();
 import cookieParser from "cookie-parser";
 import { engine } from "express-handlebars";
 import { isLoggedIn } from "./middlewares/authMiddleware.js";
+// import expressValidator from 'express-validator'
 
 // Import routes
 import { main } from './routes/index.js'
@@ -67,6 +68,7 @@ app.engine('hbs', engine())
 app.set('view engine', 'hbs')
 app.set('views', './views')
 app.use(cookieParser())
+// app.use(expressValidator())
 app.get('*', isLoggedIn)
 
 // ROUTE

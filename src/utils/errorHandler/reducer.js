@@ -37,21 +37,21 @@ export default (err) => {
             return {
                 ...defaultDetails,
                 status: 400,
-                message: 'Please fill Name field',
+                message: `'"name" is not allowed to be empty'`,
                 logError: true
             }  
         case errors.EMAIL_EMPTY:
             return {
                 ...defaultDetails,
                 status: 400,
-                message: 'Please Fill Email field',
+                message: `'"Email" is not allowed to be empty'`,
                 logError: true
             }  
         case errors.PASSWORD_EMPTY:
             return {
                 ...defaultDetails,
                 status: 400,
-                message: 'Please Fill Password field',
+                message: `'"Password" is not allowed to be empty'`,
                 logError: true
             }  
         case errors.PRISMA_UNIQUE_EMAIL:

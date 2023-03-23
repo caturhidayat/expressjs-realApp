@@ -34,7 +34,7 @@ async postSignup(req, res, next) {
             }
         })
 
-        if(!checkEmail) throw new Error(`prisma/uniqueEmail`)
+        // if(!checkEmail) throw new Error(`prisma/uniqueEmail`)
 
         const hash = await hashPassword(password)
         const user = await prisma.user.create({

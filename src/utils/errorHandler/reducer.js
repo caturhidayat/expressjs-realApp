@@ -30,7 +30,7 @@ export default (err) => {
             return {
                 ...defaultDetails,
                 status: 400,
-                message: 'Email or password incorrect',
+                message: 'Email or Password incorrect',
                 logError: true
             }  
         case errors.NAME_EMPTY:

@@ -2,8 +2,9 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "../prisma/prisma.js";
 import { hashPassword, comparePassword } from "../utils/bcrypt.js";
 import jwt from "jsonwebtoken";
-import authSchema from "../middlewares/authValidator.js";
+import { authSignup, authLogin } from "../middlewares/authValidator.js";
 
+authLogin
 // Create Token
 const maxAge = 60 * 60 * 24;
 const secret = process.env.TOKEN_SECRET;
@@ -18,23 +19,8 @@ class authController {
 
     async postSignup(req, res, next) {
         const { name, email, password } = req.body;
-
         try {
-            // if(!name) throw new Error(`name/empty`)
-            // if(!email) throw new Error('email/empty')
-            // if(!password) throw new Error('password/empty')
-
-            // if(!name) throw new Error('Please fill name field')
-            // if(!email) throw new Error('Please fill email field')
-            // if(!password) throw new Error('Please fill password field')
-            // const checkEmail = await prisma.user.findUnique({
-            //     where: {
-            //         email: email,
-            //     },
-            // });
-
-            const value = await authSchema.validateAsync({ name, email, password });
-            // if(!checkEmail) throw new Error(`prisma/uniqueEmail`)
+            const value = await authSignup.validateAsync({ name, email, password });
 
             const hash = await hashPassword(password);
             const user = await prisma.user.create({
@@ -44,7 +30,6 @@ class authController {
                     password: hash
                 }
             });
-
             res.status(201).json({ user: user.id });
         } catch (error) {
             console.info(error.message)
@@ -57,17 +42,16 @@ class authController {
         res.render("login");
     }
 
-    async postLogin(req, res) {
+    async postLogin(req, res, next) {
         const { email, password } = req.body;
 
         try {
-            if (!email) throw new Error("Please fill Email field");
-            if (!password) throw new Error("Please fill Password field");
-
+            await authLogin.validateAsync({ email, password })
             const user = await prisma.user.findUnique({
-                where: { email: email },
-            });
-
+                where: {
+                    email: email
+                }
+            })
             if (user) {
                 const matchPass = await comparePassword(
                     password,
@@ -82,15 +66,14 @@ class authController {
                     });
                     res.status(200).json({ user: user.id });
                 } else {
-                    throw new Error("Email or Password wrong!");
-                    // throw new Error('Password wrong!')
+                    throw new Error('auth/wrongUserPassword');
                 }
             } else {
-                // throw new Error('Email wrong!')
-                throw new Error("Email or Password wrong!");
+                throw new Error('auth/wrongUserPassword');
             }
         } catch (error) {
-            res.status(404).json({ error: error.message });
+            console.info(error.message)
+            next(error)
         }
     }
 

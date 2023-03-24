@@ -1,8 +1,8 @@
-import { Prisma } from "@prisma/client";
 import { prisma } from "../prisma/prisma.js";
 import { hashPassword, comparePassword } from "../utils/bcrypt.js";
 import jwt from "jsonwebtoken";
 import { authSignup, authLogin } from "../middlewares/authValidator.js";
+import Joi from "joi";
 
 authLogin
 // Create Token
@@ -33,9 +33,10 @@ class authController {
             });
             res.status(201).json({ user: user.id });
         } catch (error) {
-            // console.info(error.message)
-            next(error);
-            // res.json(error)
+            if( error instanceof Joi.ValidationError) {
+                res.status(400).json({ error: error.message })
+            }
+            next(error)
         }
     }
 
@@ -73,7 +74,9 @@ class authController {
                 throw new Error('auth/wrongUserPassword');
             }
         } catch (error) {
-            console.info(error.message)
+            if( error instanceof Joi.ValidationError) {
+                res.status(400).json({ error: error.message })
+            }
             next(error)
         }
     }

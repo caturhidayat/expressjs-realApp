@@ -4,11 +4,11 @@ export default {
 
     // Auth Error
     WRONG_USER: "auth/wrongUserPassword",
-    NAME_EMPTY: `"name" is not allowed to be empty`,
-    NAME_MIN: `"name" length must be at least 5 characters long`,
-    EMAIL_EMPTY: `"email" is not allowed to be empty`,
-    PASSWORD_EMPTY: `"password" is not allowed to be empty`,
-    PASSWORD_MIN: `"password" length must be at least 5 characters long`,
+    // NAME_EMPTY: `"name" is not allowed to be empty`,
+    // NAME_MIN: `"name" length must be at least 5 characters long`,
+    // EMAIL_EMPTY: `"email" is not allowed to be empty`,
+    // PASSWORD_EMPTY: `"password" is not allowed to be empty`,
+    // PASSWORD_MIN: `"password" length must be at least 5 characters long`,
     
     
     // Prisma Error / auth

@@ -40,6 +40,13 @@ export default (err) => {
                 message: `'"name" is not allowed to be empty'`,
                 logError: true
             }  
+        case errors.NAME_MIN:
+            return {
+                ...defaultDetails,
+                status: 400,
+                message: `"name" length must be at least 5 characters long`,
+                logError: true
+            }  
         case errors.EMAIL_EMPTY:
             return {
                 ...defaultDetails,
@@ -52,6 +59,13 @@ export default (err) => {
                 ...defaultDetails,
                 status: 400,
                 message: `'"Password" is not allowed to be empty'`,
+                logError: true
+            }  
+        case errors.PASSWORD_MIN:
+            return {
+                ...defaultDetails,
+                status: 400,
+                message: `'"password" length must be at least 5 characters long'`,
                 logError: true
             }  
         case errors.PRISMA_UNIQUE_EMAIL:

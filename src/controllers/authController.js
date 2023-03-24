@@ -20,6 +20,7 @@ class authController {
     async postSignup(req, res, next) {
         const { name, email, password } = req.body;
         try {
+            // Validate data input
             const value = await authSignup.validateAsync({ name, email, password });
 
             const hash = await hashPassword(password);
@@ -32,7 +33,7 @@ class authController {
             });
             res.status(201).json({ user: user.id });
         } catch (error) {
-            console.info(error.message)
+            // console.info(error.message)
             next(error);
             // res.json(error)
         }

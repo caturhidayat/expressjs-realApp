@@ -19,7 +19,7 @@ export default (err) => {
                 message: 'Not authorized by CORS',
                 logError: false
             }  
-        case errors.DUPLICATE_EMAIL:
+        case errors.PRISMA_DUPLICATE_EMAIL:
             return {
                 ...defaultDetails,
                 status: 400,

@@ -1,5 +1,7 @@
 import { prisma } from "../prisma/prisma.js";
-import jwt from 'jsonwebtoken'
+import { blogPost } from "../middlewares/blogValidator.js";
+import Joi from "joi";
+
 
 const secret = process.env.TOKEN_SECRET
 
@@ -13,13 +15,14 @@ class blogController {
         res.render('index', { article: article })
     }
 
-    async postBlog(req, res) {
+    async postBlog(req, res, next) {
         const { tittle, content } = req.body;
-        const token = req.cookies.jwt
-        // const user = jwt.verify(token, secret)
+        // const token = req.cookies.jwt
         console.info({ userFromDecode: req.user })
         
         try {
+            // validate data input
+            await blogPost.validateAsync({ tittle, content })
             const article = await prisma.blog.create({
                 data: {
                     tittle: tittle,
@@ -37,7 +40,10 @@ class blogController {
             // console.table(article)
             
         } catch (error) {
-            res.status(400).json({ error: error.message })
+            if( error instanceof Joi.ValidationError) {
+                res.status(400).json({ error: error.message })
+            }
+            next(error)
         }
     }
 
@@ -90,12 +96,15 @@ class blogController {
     }
 
     // Update blog post / content
-    async postUpdate(req, res) {
+    async postUpdate(req, res, next) {
         const id  = parseInt(req.params.id)
         // console.table({ this_id: id})
         const { tittle, content, publish } = req.body
-        const published = publish === "true" ? true : false
-        const article = await prisma.blog.update({
+
+        try {
+            await blogPost.validateAsync({ tittle, content })
+            const published = publish === "true" ? true : false
+            const article = await prisma.blog.update({
             where: { id: id },
             data: {
                 tittle: tittle,
@@ -104,6 +113,14 @@ class blogController {
             }
         })
         res.status(201).json({ article })
+        } catch (error) {
+            if( error instanceof Joi.ValidationError) {
+                res.status(400).json({ error: error.message })
+            }
+            next(error)
+        }
+
+        
     }
     async postPublish(req, res) {
         const id  = parseInt(req.params.id)

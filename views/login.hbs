@@ -38,7 +38,7 @@
         })
         const data = await res.json()
             if(data.error) {
-                console.log(error)
+                //console.log(error)
                 error.innerHTML = data.error
             }
             if(data.user) {
@@ -46,8 +46,8 @@
                 location.assign('/profile')
             }
         }
-        catch (err) {
-            console.info(err)
+        catch (error) {
+            console.info(error)
         }
     })
 

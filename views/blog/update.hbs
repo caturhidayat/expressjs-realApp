@@ -3,11 +3,11 @@
 <section>
     <form>
         <label class="label" for="tittle">Tittle</label>
-        <input class="input" type="text" name="tittle" value="{{tittle}}" required />
+        <input class="input" type="text" name="tittle" value="{{tittle}}"/>
         <label class="label" for="content">Content</label>
-        {{!-- <input class="input" type="text" name="content" required /> --}}
         <textarea class="textarea" name="content" id="" cols="30" rows="10">{{content}}</textarea>
-        <br>
+        <div class="has-text-danger" id="error"></div>
+        <br><br>
         <div class="select is-primary">
             
             <select class="status" name="publish">
@@ -40,9 +40,13 @@
 
 <script>
     const blog = document.querySelector('form')
+    const error = document.getElementById('error')
     
     blog.addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        // Reset Error
+        error.innerHTML = ''
 
         // Get the Value
         const tittle = blog.tittle.value;
@@ -59,6 +63,7 @@
             body: JSON.stringify({ tittle, content, publish })
         })
         const data = await res.json()
+            if(data.error) error.innerHTML = data.error
             if(data.article) {
                 location.assign('/blogs')
             }

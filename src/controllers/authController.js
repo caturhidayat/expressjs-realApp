@@ -13,12 +13,10 @@ const createToken = (id) => {
 };
 
 class authController {
-    // GET SIGGNUP PAGE
     getSignup(req, res, next) {
         res.render("signup");
     }
 
-    // POST SIGNUP 
     async postSignup(req, res, next) {
         const { name, email, password } = req.body;
         try {
@@ -42,12 +40,10 @@ class authController {
         }
     }
 
-    // GET LOGIN PAGE
     getLogin(req, res) {
         res.render("login");
     }
 
-    // POST LOGIN 
     async postLogin(req, res, next) {
         const { email, password } = req.body;
 
@@ -85,12 +81,10 @@ class authController {
         }
     }
 
-    // GET PROFILE PAGE
     getProfile(req, res) {
         res.render("profile");
     }
 
-    // LOGOUTR
     getLogout(req, res) {
         res.cookie("jwt", "", { maxAge: 1 });
         res.redirect("/");

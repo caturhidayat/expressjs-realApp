@@ -138,6 +138,33 @@ class blogController {
         })
         res.status(201).json({ article })
     }
+
+    // SEARCH 
+    async searchArticle(req, res, next) {
+        const search = req.query.article
+
+        const articles = await prisma.blog.findMany({
+            where: {
+                OR: [
+                    {
+                        tittle: {
+                            contains: search
+                        }
+                    },
+                    {
+                        content: {
+                            contains: search
+                        }
+                    }
+                ]
+            },
+            select: {
+                tittle: true,
+                content: true
+            }
+        })
+        res.status(201).json({ articles: articles })
+    }
 }
 
 

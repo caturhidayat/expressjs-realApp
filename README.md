@@ -27,4 +27,4 @@ Hopefully this project can be my first start as a developer and also inspire you
 
 5. Run migration :
  `npx prisma migrate dev --name "init"`
-6. Done, you can access this app at http://localhost:3000
+6. Done, you can access this app at http://localhost:3001

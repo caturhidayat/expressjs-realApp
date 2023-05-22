@@ -8,10 +8,14 @@ import { engine } from "express-handlebars";
 import { isLoggedIn } from "./middlewares/authMiddleware.js";
 // import expressValidator from 'express-validator'
 
-const port = process.env.PORT 
+// Import routes
+import { main } from './routes/index.js'
+import { requireAuth } from "./middlewares/authMiddleware.js";
+import { authRoute } from './routes/authRoute.js';
+import { blogRoute } from './routes/blogRoute.js';
 
 // Import error handler
-import errorHandler from './utils/errorHandler/index.js'
+import errorHandler from "./utils/errorHandler/index.js";
 
 // Middleware error handler
 app.use(errorHandler)

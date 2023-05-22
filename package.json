@@ -5,7 +5,9 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
+    "postinstall": "prisma generate && prisma migrate dev",
     "dev": "nodemon src/index",
+    "start": "node src/index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Catur Hidayat",

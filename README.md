@@ -11,6 +11,13 @@ I made this project as a step to learn to make applications. this project might 
 In this project you can sign in and create or post content. by default the content created is not published. but don't worry, you can publish it and also change the content on the draft page.
 Hopefully this project can be my first start as a developer and also inspire you.
 
+# Prerequisites
+List any software or tools that need to be installed before setting up your project. Include versions if necessary.
+
+- Node.js (version 18)
+- npm (version 8)
+- PostgreSQL (version 13 to 15)
+
 # How to Install
 1. Clone this project
 2. run :
@@ -23,8 +30,10 @@ Hopefully this project can be my first start as a developer and also inspire you
     
     > // .env
 
-    > DATABASE_URL="postgres://postgres:postgres@localhost:5432/expressjs-realApp"
+    > DATABASE_URL="postgres://[USER]:[PASSWORD]@localhost:5432/expressjs-realApp"
 
 5. Run migration :
  `npx prisma migrate dev --name "init"`
-6. Done, you can access this app at http://localhost:3001
+6. Start App :
+ `npm run dev` or `npm run start`
+7. Done, you can access this app at http://localhost:3000

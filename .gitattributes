@@ -1,6 +1,1 @@
-*.js linguist-language=JavaScript/NodeJS
-*.json linguist-language=JSON
-*.hbs linguist-language=Handlebars
-.prisma linguist-language=Prisma
-
-
+* text=auto

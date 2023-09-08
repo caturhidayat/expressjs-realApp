@@ -148,12 +148,14 @@ class blogController {
                 OR: [
                     {
                         tittle: {
-                            contains: search
+                            contains: search,
+                            mode: "insensitive"
                         }
                     },
                     {
                         content: {
-                            contains: search
+                            contains: search,
+                            mode: "insensitive"
                         }
                     }
                 ]
@@ -163,7 +165,8 @@ class blogController {
                 content: true
             }
         })
-        res.status(201).json({ articles: articles })
+        // res.status(201).json({ articles: articles })
+        res.render('search', { article: articles })
     }
 }
 
